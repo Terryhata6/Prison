@@ -6,5 +6,9 @@ namespace Game.Infrastructure.AssetManagment
         public const string HudPath = "Hud/Hud";
         public const string InputServicePath = "ServicesPrefab/InputController";
         public const string HeroCamera = "Hero/PlayerCamera";
+        public const string CopperCurrencyPath = "Currency/Copper";
+        public const string IronCurrencyPath = "Currency/Iron";
+        public const string GemCurrencyPath = "Currency/Gem";
+        
     }
 }

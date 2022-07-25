@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Cinemachine;
 using Game.Hero;
 using Game.Infrastructure.AssetManagment;
 using Game.Infrastructure.Services.PersistantProgress;
+using Game.Logic;
 using Game.Logic.Services;
 using UnityEngine;
 
@@ -33,9 +35,6 @@ namespace Game.Infrastructure.Factory
             //InstantiateRegistered(AssetPath.HudPath);
         }
 
-        
-        
-        
         public void CreateCamera(HeroMove hero)
         {
             var gameObject = _assets.Instantiate(AssetPath.HeroCamera, at: hero.transform.position + new Vector3(0f, 5f, -3f));
@@ -44,7 +43,28 @@ namespace Game.Infrastructure.Factory
             //worldCamera.LookAt = hero.transform;
 
         }
-        
+
+        public GameObject CreateCurrency(CurrencyType currencyType, Vector3 position)
+        {
+            string path = "";
+            switch (currencyType)
+            {
+                case CurrencyType.Copper:
+                    path = AssetPath.CopperCurrencyPath;
+                    break;
+                case CurrencyType.Iron:
+                    path = AssetPath.IronCurrencyPath;
+                    break;
+                case CurrencyType.Gem:
+                    path = AssetPath.GemCurrencyPath;
+                    break;
+                default:
+                    Debug.LogError("WrongAssetPath");
+                    return null;
+            }
+            return _assets.Instantiate(path, position);
+        }
+
         public void CleanUp()
         {
             ProgressReaders.Clear();
