@@ -6,6 +6,7 @@ TagManager:
   tags:
   - InitialPoint
   - Tile
+  - Loot
   layers:
   - Default
   - TransparentFX
@@ -15,10 +16,10 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Player
+  - LootTracker
   - Tiles
-  - 
+  - Loot
   - 
   - 
   - 

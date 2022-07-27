@@ -5,6 +5,7 @@ namespace Game.Enums
         Idle,
         Attack,
         Moving,
-        Unknown
+        Unknown,
+        Dead
     }
 }

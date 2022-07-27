@@ -1,6 +1,10 @@
+using Game.Hero;
 using Game.Infrastructure.Factory;
 
-public interface IInit
+namespace Game.Logic
 {
-    void Init(IGameFactory factory);
+    public interface IInit
+    {
+        void Init(IGameFactory factory);
+    }
 }

@@ -1,32 +1,37 @@
 using System;
 using System.Collections.Generic;
 using Cinemachine;
+using DG.Tweening;
 using Game.Hero;
 using Game.Infrastructure.AssetManagment;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Logic;
 using Game.Logic.Services;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Game.Infrastructure.Factory
 {
     public class GameFactory : IGameFactory
     {
         private readonly IAssets _assets;
+        private HeroMove currentHero;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
-        
+        public HeroMove CreatedHero { get => currentHero;  }
+
         public GameFactory(IAssets assets)
         {
             _assets = assets;
         }
         
-        public GameObject CreateHero(GameObject at)
+        public HeroMove CreateHero(GameObject at)
         {
-            var gameObject = InstantiateRegistered(AssetPath.HeroPath, at.transform.position);
+            currentHero = InstantiateRegistered(AssetPath.HeroPath, at.transform.position)
+                .GetComponentInChildren<HeroMove>();
 
-            return gameObject;
+            return currentHero;
         }
 
         public void CreateHud()
@@ -44,7 +49,7 @@ namespace Game.Infrastructure.Factory
 
         }
 
-        public GameObject CreateCurrency(CurrencyType currencyType, Vector3 position)
+        public GameObject CreateCurrency(CurrencyType currencyType, Vector3 position, HeroMove heroMove)
         {
             string path = "";
             switch (currencyType)
@@ -62,7 +67,21 @@ namespace Game.Infrastructure.Factory
                     Debug.LogError("WrongAssetPath");
                     return null;
             }
-            return _assets.Instantiate(path, position);
+
+            var currency = _assets.Instantiate(path, position);
+            currency.transform.DORotate(new Vector3(0, Random.Range(360f,540f), 0), 0.5f);
+            currency.transform.DOJump(GetNewCurrencyPosition(heroMove), 1.5f,1,0.3f);
+            return currency;
+        }
+
+        private static Vector3 GetNewCurrencyPosition(HeroMove heroMove)
+        {
+            return heroMove.transform.position + Vector3.forward * Random.Range(-0.5f,0.5f) + Vector3.right * Random.Range(-0.5f,0.5f);
+        }
+
+        public void CreateTiles()
+        {
+            
         }
 
         public void CleanUp()

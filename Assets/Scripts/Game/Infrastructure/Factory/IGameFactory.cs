@@ -10,13 +10,14 @@ namespace Game.Infrastructure.Factory
 {
     public interface IGameFactory : IService
     {
-        GameObject CreateHero(GameObject at);
+        HeroMove CreateHero(GameObject at);
         void CreateHud();
         List<ISavedProgressReader> ProgressReaders { get; }
         List<ISavedProgress> ProgressWriters { get; }
+        HeroMove CreatedHero { get; }
         void CleanUp();
         IInputService CreateInputController();
         void CreateCamera(HeroMove hero);
-        GameObject CreateCurrency(CurrencyType currencyType, Vector3 position);
+        GameObject CreateCurrency(CurrencyType currencyType, Vector3 position, HeroMove heroMove);
     }
 }

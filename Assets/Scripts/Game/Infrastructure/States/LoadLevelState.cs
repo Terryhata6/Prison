@@ -55,8 +55,7 @@ namespace Game.Infrastructure.States
 
         private void InitGameWorld()
         {
-            GameObject hero = _gameFactory.CreateHero(at: GameObject.FindWithTag(tag: InitialPoint));
-            _heroMove = hero.GetComponent<HeroMove>();
+            HeroMove _heroMove = _gameFactory.CreateHero(at: GameObject.FindWithTag(tag: InitialPoint));
 
             //Set follower to camera TODO
             _gameFactory.CreateHud();

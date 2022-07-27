@@ -2,6 +2,7 @@ using Game.Data;
 using Game.Enums;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
+using Game.Logic;
 using Game.Logic.Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,9 +20,12 @@ namespace Game.Hero
         private RaycastHit _hitInfo;
 
         public WeaponController WeaponController;
-        
         public Transform Hips;
-        public TileBox _tileBox;
+        public TileBox CurrentTileBox;
+        
+        private HeroLootTracker _heroLootTracker;
+        private Vector3 _movementVector3 = Vector3.zero;
+        private readonly Vector3 _gravity = new Vector3(0,-9.81f,0);
 
 
         private void Awake()
@@ -30,6 +34,8 @@ namespace Game.Hero
             WeaponController = GetComponent<WeaponController>();
             _characterController = GetComponent<CharacterController>();
             _heroAnimator = GetComponent<HeroAnimator>();
+            _heroLootTracker = GetComponentInChildren<HeroLootTracker>();
+            _heroLootTracker.Init(this);
         }
 
         private void InitInput()
@@ -39,8 +45,6 @@ namespace Game.Hero
             _input.OnEndTouch += OnEndTouch;
             _input.OnMovedTouch += OnMovedTouch;
         }
-
-
         private void OnStartTouch(Vector3 position, float time) => _currentPosition = _startPosition = position;
         private void OnMovedTouch(Vector3 position)
         {
@@ -58,7 +62,8 @@ namespace Game.Hero
 
         private void MoveCharacter(Vector3 direction, float speed)
         {
-            _characterController.Move(direction * MovementSpeed * speed * 0.01f * Time.deltaTime);
+            _movementVector3 = direction * MovementSpeed * speed * 0.01f * Time.deltaTime;
+            
             transform.LookAt(transform.position + direction, Vector3.up);
             _heroAnimator.Move(speed * 0.01f);
         }
@@ -77,33 +82,47 @@ namespace Game.Hero
 
         public void CheckHit()
         {
-            if (_tileBox) _tileBox.GetDamage(() => StopAttack());
+            if (CurrentTileBox) CurrentTileBox.GetDamage(StopAttack);
         }
 
         private void Update()
         {
-            if (_heroAnimator.State == AnimatorState.Idle)
+            MovingHero();
+            CheckAttack();
+        }
+
+        private void CheckAttack()
+        {
+            if (_heroAnimator.State != AnimatorState.Dead)
             {
-                if (Physics.Raycast(Hips.position, transform.forward, out _hitInfo , 1f, 1 << 10))
+                if (Physics.Raycast(Hips.position, transform.forward, out _hitInfo, 1f, 1 << 10))
                 {
                     if (_hitInfo.collider.CompareTag("Tile"))
                     {
                         Attack();
-                        _tileBox = _hitInfo.collider.gameObject.GetComponent<TileBox>();
+                        CurrentTileBox = _hitInfo.collider.gameObject.GetComponent<TileBox>();
                     }
                     else
                     {
                         StopAttack();
-                        _tileBox = null;
+                        CurrentTileBox = null;
                     }
+                }
+                else
+                {
+                    StopAttack();
+                    CurrentTileBox = null;
                 }
             }
         }
 
-        private void StopAttack()
+        private void MovingHero()
         {
-            _heroAnimator.StopAttack();
+            _characterController.Move(_movementVector3 + _gravity);
+            _movementVector3 = Vector3.zero;
         }
+
+        private void StopAttack() => _heroAnimator.StopAttack();
 
 
         public void LoadProgress(PlayerProgress progress)
@@ -133,9 +152,6 @@ namespace Game.Hero
             progress.PlayerData.WeaponType = WeaponController.CurrentWeapon.Type;
         }
 
-        public void UpdateWeaponParams(float currentWeaponAttackSpeed)
-        {
-            _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
-        }
+        public void UpdateWeaponParams(float currentWeaponAttackSpeed) => _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
     }
 }
