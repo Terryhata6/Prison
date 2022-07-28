@@ -10,6 +10,7 @@ namespace Game.Infrastructure.AssetManagment
         public const string IronCurrencyPath = "Currency/Iron";
         public const string GemCurrencyPath = "Currency/Gem";
         public const string TileLevelPath = "Levels/TileLevel";
+        public const string UIPath = "UI/UI";
 
     }
 }

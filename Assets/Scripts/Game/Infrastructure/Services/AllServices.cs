@@ -1,5 +1,3 @@
-using Game.Infrastructure.Factory;
-
 namespace Game.Infrastructure.Services
 {
     /// <summary>

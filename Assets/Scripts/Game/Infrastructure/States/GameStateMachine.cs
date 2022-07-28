@@ -4,7 +4,9 @@ using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Infrastructure.Services.SaveLoad;
-using Game.Infrastructure.Services.UI; //using Unity.VisualScripting;
+using Game.UI.Interfaces;
+
+//using Unity.VisualScripting;
 
 namespace Game.Infrastructure.States
 {

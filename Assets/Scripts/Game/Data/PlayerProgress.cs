@@ -14,6 +14,8 @@ namespace Game.Data
         public PlayerProgress(string initialLevel, PlayerData playerData, CurrencyData currencyData)
         {
             WorldData = new WorldData(initialLevel);
+            PlayerData = playerData;
+            CurrencyData = currencyData;
         }
     }
 }

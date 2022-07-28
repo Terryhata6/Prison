@@ -20,5 +20,6 @@ namespace Game.Infrastructure.Factory
         void CreateCamera(HeroMove hero);
         GameObject CreateCurrency(CurrencyType currencyType, Vector3 position, HeroMove heroMove);
         void LoadLevelTiles();
+        GameObject CreateUI();
     }
 }

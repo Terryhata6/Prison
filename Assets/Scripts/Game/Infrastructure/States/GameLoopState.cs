@@ -2,7 +2,8 @@ using System.Collections;
 using Game.Data;
 using Game.Hero;
 using Game.Infrastructure.Services;
-using Game.Infrastructure.Services.UI;
+using Game.UI;
+using Game.UI.Interfaces;
 using UnityEngine;
 
 namespace Game.Infrastructure.States
@@ -25,17 +26,17 @@ namespace Game.Infrastructure.States
         {
             _player = payload;
             _player.OnLevelEnded += OnLevelEnded;
+            _uiService.SetState(UIState.Ingame);
         }
 
         private void OnLevelEnded(EndLevelData obj)
         {
-            _coroutineRunner.StartCoroutine(EndLevelCoroutine(obj));
+            _coroutineRunner.StartCoroutine(_uiService.EndLevelCoroutine(obj, Exit));
+            
         }
-
-        private IEnumerator EndLevelCoroutine(EndLevelData endLevelData)
-        {
-            yield return _coroutineRunner.StartCoroutine(_uiService.EndLevelCoroutine());
-        }
+        
+        
+        
 
         public void Exit()
         {

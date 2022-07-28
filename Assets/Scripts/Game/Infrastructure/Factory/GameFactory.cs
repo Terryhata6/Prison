@@ -16,11 +16,11 @@ namespace Game.Infrastructure.Factory
     public class GameFactory : IGameFactory
     {
         private readonly IAssets _assets;
-        private HeroMove currentHero;
+        private HeroMove _currentHero;
 
         public List<ISavedProgressReader> ProgressReaders { get; } = new List<ISavedProgressReader>();
         public List<ISavedProgress> ProgressWriters { get; } = new List<ISavedProgress>();
-        public HeroMove CreatedHero { get => currentHero;  }
+        public HeroMove CreatedHero { get => _currentHero;  }
 
         public GameFactory(IAssets assets)
         {
@@ -29,10 +29,10 @@ namespace Game.Infrastructure.Factory
         
         public HeroMove CreateHero(GameObject at)
         {
-            currentHero = InstantiateRegistered(AssetPath.HeroPath, at.transform.position)
+            _currentHero = InstantiateRegistered(AssetPath.HeroPath, at.transform.position)
                 .GetComponentInChildren<HeroMove>();
 
-            return currentHero;
+            return _currentHero;
         }
 
         public void CreateHud()
@@ -81,6 +81,8 @@ namespace Game.Infrastructure.Factory
 
         }
 
+        public GameObject CreateUI() => _assets.Instantiate(AssetPath.UIPath);
+
         private static Vector3 GetNewCurrencyPosition(HeroMove heroMove)
         {
             return heroMove.transform.position + Vector3.forward * Random.Range(-0.5f,0.5f) + Vector3.right * Random.Range(-0.5f,0.5f);
@@ -97,10 +99,7 @@ namespace Game.Infrastructure.Factory
             ProgressWriters.Clear();
         }
 
-        public IInputService CreateInputController()
-        {
-            return _assets.Instantiate(AssetPath.InputServicePath).GetComponent<IInputService>();
-        }
+        public IInputService CreateInputController() => _assets.Instantiate(AssetPath.InputServicePath).GetComponent<IInputService>();
 
         private GameObject InstantiateRegistered(string prefabPath, Vector3 position)
         {

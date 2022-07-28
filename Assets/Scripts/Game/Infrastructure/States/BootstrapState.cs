@@ -3,8 +3,9 @@ using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Infrastructure.Services.SaveLoad;
-using Game.Infrastructure.Services.UI;
 using Game.Logic.Services;
+using Game.UI;
+using Game.UI.Interfaces;
 
 namespace Game.Infrastructure.States
 {
