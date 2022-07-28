@@ -3,6 +3,7 @@ using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Infrastructure.Services.SaveLoad;
+using Game.Infrastructure.Services.UI;
 using Game.Logic.Services;
 
 namespace Game.Infrastructure.States
@@ -37,9 +38,11 @@ namespace Game.Infrastructure.States
         {
             _services.RegisterSingle<IAssets>(new AssetsProvider());
             _services.RegisterSingle<IPersistantProgressService>(new PersistantProgressService());
+            _services.RegisterSingle<LevelCreatorService>(new LevelCreatorService(_services.Single<IAssets>()));
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssets>()));
             _services.RegisterSingle<IInputService>(SetupInputService()); 
             _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistantProgressService>(), _services.Single<IGameFactory>()));
+            _services.RegisterSingle<IUIService>(new UIService(_services.Single<IGameFactory>()));
         }
 
         public void Exit()

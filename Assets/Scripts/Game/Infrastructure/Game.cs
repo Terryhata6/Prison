@@ -12,7 +12,7 @@ namespace Game.Infrastructure
 
         public Game(ICoroutineRunner coroutineRunner, LoadingCurtain loadingCurtain)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingCurtain, AllServices.Container);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingCurtain, AllServices.Container, coroutineRunner);
         }
 
     }

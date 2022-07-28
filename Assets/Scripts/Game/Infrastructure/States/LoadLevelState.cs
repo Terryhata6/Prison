@@ -40,9 +40,10 @@ namespace Game.Infrastructure.States
         
         private void OnLoaded()
         {
-            InitGameWorld();
+            HeroMove player;
+            InitGameWorld(out player);
             InformProgressReaders();
-            _stateMachine.Enter<GameLoopState>();
+            _stateMachine.Enter<GameLoopState, HeroMove>(player);
         }
 
         private void InformProgressReaders()
@@ -53,13 +54,14 @@ namespace Game.Infrastructure.States
             }
         }
 
-        private void InitGameWorld()
+        private void InitGameWorld(out HeroMove _heroMove)   
         {
-            HeroMove _heroMove = _gameFactory.CreateHero(at: GameObject.FindWithTag(tag: InitialPoint));
+            _heroMove = _gameFactory.CreateHero(at: GameObject.FindWithTag(tag: InitialPoint));
 
             //Set follower to camera TODO
             _gameFactory.CreateHud();
             _gameFactory.CreateCamera(hero: _heroMove);
+            _gameFactory.LoadLevelTiles();
         }
     }
 }

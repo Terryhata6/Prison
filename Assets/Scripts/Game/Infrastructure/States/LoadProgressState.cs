@@ -37,7 +37,7 @@ namespace Game.Infrastructure.States
 
         private PlayerProgress NewProgress()
         {
-            return new PlayerProgress("Main");
+            return new PlayerProgress("Lobby", new PlayerData(), new CurrencyData()); //"Main"
         }
     }
 }

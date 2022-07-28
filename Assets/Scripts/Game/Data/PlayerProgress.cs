@@ -6,13 +6,14 @@ namespace Game.Data
     public class PlayerProgress
     {
         public WorldData WorldData;
-        
-        public PlayerProgress(string initialLevel)
+        public PlayerData PlayerData;
+        public CurrencyData CurrencyData;
+
+
+
+        public PlayerProgress(string initialLevel, PlayerData playerData, CurrencyData currencyData)
         {
             WorldData = new WorldData(initialLevel);
         }
-
-        public PlayerData PlayerData { get; set; }
-        public CurrencyData CurrencyData { get; set; }
     }
 }

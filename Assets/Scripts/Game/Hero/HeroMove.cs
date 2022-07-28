@@ -1,7 +1,9 @@
+using System;
 using Game.Data;
 using Game.Enums;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
+using Game.Infrastructure.States;
 using Game.Logic;
 using Game.Logic.Services;
 using UnityEngine;
@@ -26,6 +28,7 @@ namespace Game.Hero
         private HeroLootTracker _heroLootTracker;
         private Vector3 _movementVector3 = Vector3.zero;
         private readonly Vector3 _gravity = new Vector3(0,-9.81f,0);
+        private PlayerCurrency _playerCurrency;
 
 
         private void Awake()
@@ -36,6 +39,7 @@ namespace Game.Hero
             _heroAnimator = GetComponent<HeroAnimator>();
             _heroLootTracker = GetComponentInChildren<HeroLootTracker>();
             _heroLootTracker.Init(this);
+            _playerCurrency = GetComponent<PlayerCurrency>();
         }
 
         private void InitInput()
@@ -151,6 +155,27 @@ namespace Game.Hero
             progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData());
             progress.PlayerData.WeaponType = WeaponController.CurrentWeapon.Type;
         }
+
+        public void EscapedFromCave()
+        {
+            EndLevelData Data = new EndLevelData();
+            Data.EarnedCash = _heroLootTracker.GetCurrency();
+            Data.CopCash = 0;
+            Data.EscapeResult = true;
+            OnLevelEnded?.Invoke(Data);
+        }
+
+        public void ReturnToJail()
+        {
+            EndLevelData Data = new EndLevelData();
+            float cashValue = _heroLootTracker.GetCurrency();
+            Data.EarnedCash = cashValue * 0.6f;
+            Data.CopCash = cashValue * 0.4f;
+            Data.EscapeResult = false;
+            OnLevelEnded?.Invoke(Data);
+        }
+
+        public event Action<EndLevelData> OnLevelEnded;
 
         public void UpdateWeaponParams(float currentWeaponAttackSpeed) => _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
     }

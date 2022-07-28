@@ -19,5 +19,6 @@ namespace Game.Infrastructure.Factory
         IInputService CreateInputController();
         void CreateCamera(HeroMove hero);
         GameObject CreateCurrency(CurrencyType currencyType, Vector3 position, HeroMove heroMove);
+        void LoadLevelTiles();
     }
 }

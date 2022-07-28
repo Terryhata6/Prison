@@ -4,6 +4,7 @@ using Cinemachine;
 using DG.Tweening;
 using Game.Hero;
 using Game.Infrastructure.AssetManagment;
+using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Logic;
 using Game.Logic.Services;
@@ -72,6 +73,12 @@ namespace Game.Infrastructure.Factory
             currency.transform.DORotate(new Vector3(0, Random.Range(360f,540f), 0), 0.5f);
             currency.transform.DOJump(GetNewCurrencyPosition(heroMove), 1.5f,1,0.3f);
             return currency;
+        }
+
+        public void LoadLevelTiles()
+        {
+            //AllServices.Container.Single<LevelCreatorService>().LoadLevel();
+
         }
 
         private static Vector3 GetNewCurrencyPosition(HeroMove heroMove)

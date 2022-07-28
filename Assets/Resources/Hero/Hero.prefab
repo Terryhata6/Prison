@@ -336,6 +336,37 @@ Transform:
   m_Father: {fileID: 1888192154277179657}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1908651677591447187
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 672532986434153176}
+  m_Layer: 9
+  m_Name: stackingHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: -5487077368411116049, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &672532986434153176
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908651677591447187}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: -0, z: -0.246}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3661564993950535851}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2183629936824226992
 GameObject:
   m_ObjectHideFlags: 0
@@ -1061,6 +1092,7 @@ GameObject:
   - component: {fileID: 2609806968707036000}
   - component: {fileID: 6835238611625574224}
   - component: {fileID: 7259447797029533490}
+  - component: {fileID: 3072097014062462421}
   m_Layer: 8
   m_Name: Hero
   m_TagString: Untagged
@@ -1171,6 +1203,21 @@ MonoBehaviour:
   - {fileID: 2773400459858359816}
   - {fileID: 4756614148246080128}
   - {fileID: 8730122169725641601}
+--- !u!114 &3072097014062462421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8488158944350661253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96d663cd0a2a40c6b7250b307a15dec9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Copper: 0
+  Iron: 0
+  Diamonds: 0
 --- !u!1 &8507184089264196062
 GameObject:
   m_ObjectHideFlags: 0
@@ -1204,6 +1251,7 @@ Transform:
   - {fileID: 6525432933490780631}
   - {fileID: 600645781968316308}
   - {fileID: 3943046752305095480}
+  - {fileID: 672532986434153176}
   m_Father: {fileID: 9115337575872278591}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1232,6 +1280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b3d1869f2749e397ef075a8082b88c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  StackingHolder: {fileID: 672532986434153176}
 --- !u!1 &8730794498361628973
 GameObject:
   m_ObjectHideFlags: 0

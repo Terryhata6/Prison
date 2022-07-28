@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
-using Game.Infrastructure.Services.SaveLoad; //using Unity.VisualScripting;
+using Game.Infrastructure.Services.SaveLoad;
+using Game.Infrastructure.Services.UI; //using Unity.VisualScripting;
 
 namespace Game.Infrastructure.States
 {
@@ -12,13 +13,13 @@ namespace Game.Infrastructure.States
         private readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain, AllServices services)
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain, AllServices services, ICoroutineRunner coroutineRunner)
         {
             _states = new Dictionary<Type, IExitableState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingCurtain, services.Single<IGameFactory>(), services.Single<IPersistantProgressService>()),
-                [typeof(GameLoopState)] = new GameLoopState(this),
+                [typeof(GameLoopState)] = new GameLoopState(this, coroutineRunner, services.Single<IUIService>()),
                 [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistantProgressService>(), 
                 services.Single<ISaveLoadService>())
             };

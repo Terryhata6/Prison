@@ -6,7 +6,8 @@ namespace Game.Data
     [Serializable]
     public class PlayerData
     {
-        public PlayerData(WeaponType type)
+        //TODO ProgressHere
+        public PlayerData(WeaponType type = WeaponType.Otvertka)
         {
             WeaponType = type;
         }

@@ -7,21 +7,29 @@ namespace Game.Hero
 {
     public class PlayerCurrency : MonoBehaviour, ISavedProgress
     {
-        public float Copper;
-        public float Iron;
-        public float Diamonds;
-        
+        public float Money;
+        private float CopMoney;
+
 
         public void LoadProgress(PlayerProgress progress)
         {
-            Copper = progress.CurrencyData.Copper;
-            Iron = progress.CurrencyData.Iron;
-            Diamonds = progress.CurrencyData.Diamonds;
+            Money = progress.CurrencyData.Money;
+            CopMoney = progress.CurrencyData.CopMoney;
         }
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            
+            progress.CurrencyData.Money = Money;
+        }
+
+        public void AddCurrency(float value)
+        {
+            Money += value;
+        }
+
+        public void AddCopSavings(float earnedCash)
+        {
+            CopMoney += earnedCash;
         }
     }
 }
