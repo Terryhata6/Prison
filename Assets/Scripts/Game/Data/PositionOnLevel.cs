@@ -8,10 +8,11 @@ namespace Game.Data
         public string Level;
         public Vector3Data Position;
 
-        public PositionOnLevel(string level, Vector3Data position)
+        public PositionOnLevel(string level, Vector3Data position = null)
         {
             Level = level;
-            Position = position;
+            if (position != null)
+                Position = position;
         }
 
         public PositionOnLevel(string initialLevel)

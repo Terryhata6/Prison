@@ -7,6 +7,8 @@ TagManager:
   - InitialPoint
   - Tile
   - Loot
+  - EventIndicator
+  - CaveExit
   layers:
   - Default
   - TransparentFX

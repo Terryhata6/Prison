@@ -1095,7 +1095,7 @@ GameObject:
   - component: {fileID: 3072097014062462421}
   m_Layer: 8
   m_Name: Hero
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1153,6 +1153,7 @@ MonoBehaviour:
   WeaponController: {fileID: 0}
   Hips: {fileID: 3661564993950535851}
   CurrentTileBox: {fileID: 0}
+  NextLevel: 
 --- !u!114 &2609806968707036000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1215,9 +1216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d663cd0a2a40c6b7250b307a15dec9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Copper: 0
-  Iron: 0
-  Diamonds: 0
+  Money: 0
 --- !u!1 &8507184089264196062
 GameObject:
   m_ObjectHideFlags: 0

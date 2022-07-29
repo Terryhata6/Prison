@@ -9,6 +9,6 @@ namespace Game.Infrastructure.Services.PersistantProgress
 
     public interface ISavedProgress : ISavedProgressReader
     {
-        void UpdateProgress(PlayerProgress progress);
+        void UpdateProgress(PlayerProgress progress, string currentLevel = null);
     }
 }

@@ -3,8 +3,10 @@ using Game.Data;
 using Game.Enums;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
+using Game.Infrastructure.Services.SaveLoad;
 using Game.Infrastructure.States;
 using Game.Logic;
+using Game.Logic.EventIndicator;
 using Game.Logic.Services;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -24,15 +26,20 @@ namespace Game.Hero
         public WeaponController WeaponController;
         public Transform Hips;
         public TileBox CurrentTileBox;
+        public string NextLevel = "";
         
         private HeroLootTracker _heroLootTracker;
         private Vector3 _movementVector3 = Vector3.zero;
         private readonly Vector3 _gravity = new Vector3(0,-9.81f,0);
         private PlayerCurrency _playerCurrency;
+        private EventIndicator currentEventIndicator;
 
 
         private void Awake()
         {
+            SetNextLevel("Lobby");
+            AllServices.Container.Single<ISaveLoadService>().SaveProgress();
+            
             InitInput();
             WeaponController = GetComponent<WeaponController>();
             _characterController = GetComponent<CharacterController>();
@@ -93,6 +100,15 @@ namespace Game.Hero
         {
             MovingHero();
             CheckAttack();
+            CheckEventIndicators();
+        }
+
+        private void CheckEventIndicators()
+        {
+            if (currentEventIndicator)
+            {
+                currentEventIndicator.FillProgress(this);
+            }
         }
 
         private void CheckAttack()
@@ -132,12 +148,12 @@ namespace Game.Hero
         public void LoadProgress(PlayerProgress progress)
         {
             if (progress.WorldData.PositionOnLevel.Level == CurrentLevel())
-            {
+            {/*
                 Vector3Data savedPosition = progress.WorldData.PositionOnLevel.Position;
                 if (savedPosition != null)
                 {
                     Warp(to: savedPosition);
-                }
+                }*/
 
                 if (progress.PlayerData != null)
                 {
@@ -150,9 +166,18 @@ namespace Game.Hero
             }
         }
 
-        public void UpdateProgress(PlayerProgress progress)
+        public void SetNextLevel(string value)
         {
-            progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVectorData());
+            NextLevel = value;
+        }
+        
+        public void UpdateProgress(PlayerProgress progress, string currentLevel = null)
+        {
+            if (NextLevel != currentLevel)
+            {
+                currentLevel = NextLevel;
+            }
+            progress.WorldData.PositionOnLevel = new PositionOnLevel(currentLevel, transform.position.AsVectorData());
             progress.PlayerData.WeaponType = WeaponController.CurrentWeapon.Type;
         }
 
@@ -162,6 +187,7 @@ namespace Game.Hero
             Data.EarnedCash = _heroLootTracker.GetCurrency();
             Data.CopCash = 0;
             Data.EscapeResult = true;
+            Data.IsLevelLobby = false;
             OnLevelEnded?.Invoke(Data);
         }
 
@@ -172,11 +198,51 @@ namespace Game.Hero
             Data.EarnedCash = cashValue * 0.6f;
             Data.CopCash = cashValue * 0.4f;
             Data.EscapeResult = false;
+            Data.IsLevelLobby = false;
+            OnLevelEnded?.Invoke(Data);
+        }
+
+        public void GoToCave()
+        {
+            EndLevelData Data = new EndLevelData();
+            Data.IsLevelLobby = true;
             OnLevelEnded?.Invoke(Data);
         }
 
         public event Action<EndLevelData> OnLevelEnded;
 
         public void UpdateWeaponParams(float currentWeaponAttackSpeed) => _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("EventIndicator"))
+            {
+                currentEventIndicator = other.GetComponent<EventIndicator>();
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.CompareTag("EventIndicator"))
+            {
+                if (other.GetComponent<EventIndicator>() == currentEventIndicator)
+                {
+                    currentEventIndicator.StopFillingProgress();
+                    currentEventIndicator = null;
+                }
+            }
+        }
+
+        private void OnDestroy()
+        {
+            _input.OnStartTouch -= OnStartTouch;
+            _input.OnEndTouch -= OnEndTouch;
+            _input.OnMovedTouch -= OnMovedTouch;
+        }
+
+        public void AddMoney(float objEarnedCash)
+        {
+            _playerCurrency.AddCurrency(objEarnedCash);
+        }
     }
 }

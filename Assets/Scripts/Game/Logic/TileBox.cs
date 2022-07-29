@@ -14,6 +14,7 @@ namespace Game.Logic
         private IGameFactory _factory;
         public CurrencyType Type;
 
+        public GameObject Simple;
         public GameObject IronGO;
         public GameObject CopperGO;
         public GameObject GemGO;
@@ -35,9 +36,12 @@ namespace Game.Logic
             IronGO.SetActive(false);
             CopperGO.SetActive(false);
             GemGO.SetActive(false);
+            Simple.SetActive(false);
+            
             switch (Type)
             {
                 case CurrencyType.Void:
+                    Simple.SetActive(true);
                     break;
                 case CurrencyType.Copper:
                     CopperGO.SetActive(true);

@@ -1,8 +1,11 @@
 using System;
 using System.Collections;
 using Game.Data;
+using Game.Infrastructure;
 using Game.Infrastructure.Factory;
 using Game.UI.Interfaces;
+using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.UI
@@ -10,8 +13,9 @@ namespace Game.UI
     public class UIService : IUIService
     {
         private IGameFactory _gameFactory;
-        private Button _uiNextLevelButton;
         private UIController _uiController;
+        
+        
 
         public UIService(IGameFactory gameFactory)
         {
@@ -20,22 +24,20 @@ namespace Game.UI
             _uiController.Init();
         }
 
-        public IEnumerator EndLevelCoroutine(EndLevelData data, Action callback)
+        public void EndCaveLevelCoroutine(ICoroutineRunner coroutineRunner, EndLevelData data, Action callback)
         {
-            
-            _uiNextLevelButton.onClick.AddListener(() =>
-            {
-                _uiNextLevelButton.onClick.RemoveAllListeners();    
-            });
-            
-            
             SetState(UIState.EndGame);
-            yield return null;
+            coroutineRunner.StartCoroutine(_uiController.EndCaveLevelCoroutine(data, callback));
         }
 
         public void SetState(UIState state)
         {
             _uiController.SetState(state);
+        }
+
+        public void UpdateUIMoney(float money)
+        {
+            _uiController.UpdateMoney(money);
         }
     }
 }

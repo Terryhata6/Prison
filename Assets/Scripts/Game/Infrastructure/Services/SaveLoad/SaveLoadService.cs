@@ -1,4 +1,5 @@
 using Game.Data;
+using Game.Hero;
 using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services.PersistantProgress;
 using UnityEngine;

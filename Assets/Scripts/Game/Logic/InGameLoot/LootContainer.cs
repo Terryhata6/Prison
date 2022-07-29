@@ -14,8 +14,14 @@ namespace Game.Logic.InGameLoot
 
         public IEnumerator Start()
         {
+            
+            
             _triggerCollder = GetComponent<MeshCollider>();
             _rigidbody = GetComponent<Rigidbody>();
+            
+            
+            
+            
             yield return new WaitForSeconds(1f);
             SetAvailable(true);
         }
@@ -45,7 +51,7 @@ namespace Game.Logic.InGameLoot
         {
             transform.parent = parent;
             transform.position = position;
-            transform.rotation = Quaternion.identity;
+            transform.rotation = Quaternion.LookRotation(transform.parent.forward);
         }
     }
 }

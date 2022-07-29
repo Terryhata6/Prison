@@ -62,7 +62,7 @@ namespace Game.Infrastructure.Factory
                     path = AssetPath.IronCurrencyPath;
                     break;
                 case CurrencyType.Gem:
-                    path = AssetPath.GemCurrencyPath;
+                    path = AssetPath.GemCurrencyPath+Random.Range(0,5);
                     break;
                 default:
                     Debug.LogError("WrongAssetPath");
