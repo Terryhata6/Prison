@@ -16,7 +16,7 @@ namespace Game.UI
     {
         public UIState State;
         public Dictionary<UIState, UIPanel> _panels = new Dictionary<UIState, UIPanel>();
-        
+
         public Button _uiNextLevelButton;
         public GameObject SuccsessEscapeUI;
         public GameObject CatchedUI;
@@ -24,25 +24,29 @@ namespace Game.UI
         public TMP_Text CopCashUI;
 
         public TMP_Text InGameMoney;
-        
+        public TMP_Text InGameInventory;
+
+        [Header("CopArrow")] public Transform _copHolder;
+        public Transform _copArrow;
+        public Transform _copArrowStart;
+        public Transform _copArrowFinish;
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
             _panels.Add(UIState.Ingame, GetComponentInChildren<InGameUI>());
             _panels.Add(UIState.EndGame, GetComponentInChildren<EndGameUI>());
             _panels.Add(UIState.Pause, GetComponentInChildren<PauseUI>());
-            
+
             SetState(UIState.Bootstrap);
         }
 
         public void Init()
         {
-            
         }
 
         public IEnumerator EndCaveLevelCoroutine(EndLevelData data, Action callback)
         {
-            
             if (data.EscapeResult)
             {
                 SuccsessEscapeUI.SetActive(true);
@@ -53,10 +57,10 @@ namespace Game.UI
                 SuccsessEscapeUI.SetActive(false);
                 CatchedUI.SetActive(true);
             }
-            
-            EarnedCashUI.text = "You get: " + data.EarnedCash.ToString()+"$";
-            CopCashUI.text = "Cop get: " + data.CopCash.ToString()+"$";
-            
+
+            EarnedCashUI.text = "You get: " + data.EarnedCash.ToString() + "$";
+            CopCashUI.text = "Cop get: " + data.CopCash.ToString() + "$";
+
             bool flag = false;
             _uiNextLevelButton.onClick.AddListener(() =>
             {
@@ -65,25 +69,42 @@ namespace Game.UI
                 callback?.Invoke();
                 _uiNextLevelButton.onClick.RemoveAllListeners();
             });
-            
+
             yield return new WaitUntil(() => flag);
-            
-            
         }
-        
+
         public void SetState(UIState state)
         {
-            if(State == state)
+            if (State == state)
                 return;
             foreach (var panel in _panels) panel.Value.Hide();
-            if(_panels.ContainsKey(state))
+            if (_panels.ContainsKey(state))
                 _panels[state].Show();
             State = state;
         }
 
         public void UpdateMoney(float money)
         {
-            InGameMoney.text = money.ToString()+"$";
+            InGameMoney.text = money.ToString();
+        }
+
+        public void UpdateInventory(string value, Color textColor)
+        {
+            InGameInventory.text = value;
+            InGameInventory.color = textColor;
+        }
+
+        public void UpdateCopUI(float copTimer, float maximumCopTimer)
+        {
+            if (copTimer <= 0)
+            {
+                _copHolder.gameObject.SetActive(false);
+            }
+            else
+            {
+                _copArrow.position = Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
+                    copTimer / maximumCopTimer);
+            }
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Game.Hero;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +12,8 @@ namespace Game.Logic.EventIndicator
         public bool CanFillProgress = true;
         public bool Activated = false;
         public Image UIIndicator;
+        public float FillingTime = 1f;
+        public BoxCollider Collider;
         
         public void FillProgress(HeroMove hero)
         {
@@ -22,18 +25,20 @@ namespace Game.Logic.EventIndicator
             UpdateUIIndicator(Progress);
             if (Progress < 1)
             {
-                Progress += Time.deltaTime;
+                Progress += Time.deltaTime/FillingTime;
             }
             else
             {
+                UpdateUIIndicator(Progress,false);
                 Progress = 1;
                 Activate(hero);
             }
             
         }
 
-        private void UpdateUIIndicator(float uiIndicatorFillAmount)
+        private void UpdateUIIndicator(float uiIndicatorFillAmount, bool indicatorEnabled = true)
         {
+            UIIndicator.gameObject.SetActive(indicatorEnabled);
             UIIndicator.fillAmount = uiIndicatorFillAmount;
         }
 
@@ -54,7 +59,13 @@ namespace Game.Logic.EventIndicator
         public void StopFillingProgress()
         {
             Progress = 0;
-            Activated = false;
+            Deactivate();
+        }
+
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = new Color32(30, 255, 255, 130);
+            Gizmos.DrawCube(transform.position + Collider.center, Collider.size);
         }
     }
 }

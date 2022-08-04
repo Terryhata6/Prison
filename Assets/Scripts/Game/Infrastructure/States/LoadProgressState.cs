@@ -1,5 +1,6 @@
 using System;
 using Game.Data;
+using Game.Hero;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Infrastructure.Services.SaveLoad;
 
@@ -37,7 +38,7 @@ namespace Game.Infrastructure.States
 
         private PlayerProgress NewProgress()
         {
-            return new PlayerProgress("Lobby", new PlayerData(), new CurrencyData()); //"Main"
+            return new PlayerProgress("Lobby", new PlayerData(weaponType: WeaponType.Otvertka, maximumStackSize: 10, copDelayTime:45), new CurrencyData()); //"Main"
         }
     }
 }

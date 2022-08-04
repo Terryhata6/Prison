@@ -39,5 +39,16 @@ namespace Game.UI
         {
             _uiController.UpdateMoney(money);
         }
+
+        public void UpdateUiInventory(string value, Color textColor)
+        {
+            _uiController.UpdateInventory(value, textColor);
+            
+        }
+
+        public void UpdateCopUi(float copTimer, float maximumCopTimer)
+        {
+            _uiController.UpdateCopUI(copTimer, maximumCopTimer);
+        }
     }
 }

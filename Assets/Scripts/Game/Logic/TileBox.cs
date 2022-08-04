@@ -18,9 +18,12 @@ namespace Game.Logic
         public GameObject IronGO;
         public GameObject CopperGO;
         public GameObject GemGO;
-        
-        public void Init(IGameFactory factory)
+        private TileController _tileController;
+        public Transform CurrentTransform;
+
+        public void Init(IGameFactory factory, TileController tileController)
         {
+            _tileController = tileController;
             _factory = factory;
             var randomValue = Random.Range(0, 100);
             if (randomValue > 90)
@@ -42,15 +45,19 @@ namespace Game.Logic
             {
                 case CurrencyType.Void:
                     Simple.SetActive(true);
+                    CurrentTransform = Simple.transform;
                     break;
                 case CurrencyType.Copper:
                     CopperGO.SetActive(true);
+                    CurrentTransform = CopperGO.transform;
                     break;
                 case CurrencyType.Iron:
                     IronGO.SetActive(true);
+                    CurrentTransform = IronGO.transform;
                     break;
                 case CurrencyType.Gem:
                     GemGO.SetActive(true);
+                    CurrentTransform = GemGO.transform;
                     break;
                 default:
                     break;
@@ -69,6 +76,7 @@ namespace Game.Logic
                 _collider.enabled = false;
             
                 ShakeTile(true);
+                _tileController.TileWasDestroyed(this);
                 onDeath?.Invoke();
             }
             else
@@ -90,7 +98,7 @@ namespace Game.Logic
 
         public void ShakeTile(bool death = false)
         {
-            transform.DOShakeScale(0.3f,0.4f,50).OnComplete(() =>
+            CurrentTransform.DOShakeScale(0.3f,0.4f,50).OnComplete(() =>
             {
                 if (death)
                 {
@@ -98,6 +106,5 @@ namespace Game.Logic
                 }
             });
         }
-
     }
 }

@@ -23,11 +23,13 @@ namespace Game.Hero
             Money = progress.CurrencyData.Money;
             CopMoney = progress.CurrencyData.CopMoney;
             UpdateUIMoney();
+            Debug.Log("CurrencyProgress Loaded");
         }
 
         public void UpdateProgress(PlayerProgress progress, string currentLevel = null)
         {
             progress.CurrencyData.Money = Money;
+            Debug.Log("SaveCurrencyProgress");
         }
 
         public void UpdateUIMoney()

@@ -7,11 +7,15 @@ namespace Game.Data
     public class PlayerData
     {
         //TODO ProgressHere
-        public PlayerData(WeaponType type = WeaponType.Otvertka)
+        public PlayerData(WeaponType weaponType, int maximumStackSize, float copDelayTime)
         {
-            WeaponType = type;
+            weaponWeaponType = weaponType;
+            MaximumStackSize = maximumStackSize;
+            CopDelayTime = copDelayTime;
         }
 
-        public WeaponType WeaponType;
+        public WeaponType weaponWeaponType;
+        public int MaximumStackSize;
+        public float CopDelayTime;
     }
 }

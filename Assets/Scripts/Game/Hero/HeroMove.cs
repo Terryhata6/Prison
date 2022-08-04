@@ -7,7 +7,9 @@ using Game.Infrastructure.Services.SaveLoad;
 using Game.Infrastructure.States;
 using Game.Logic;
 using Game.Logic.EventIndicator;
+using Game.Logic.InGameLoot;
 using Game.Logic.Services;
+using Game.UI.Interfaces;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,27 +28,31 @@ namespace Game.Hero
         public WeaponController WeaponController;
         public Transform Hips;
         public TileBox CurrentTileBox;
-        public string NextLevel = "";
+        public string NextLevel = "Lobby";
         
         private HeroLootTracker _heroLootTracker;
         private Vector3 _movementVector3 = Vector3.zero;
-        private readonly Vector3 _gravity = new Vector3(0,-9.81f,0);
+        private readonly Vector3 _gravity = new Vector3(0f,-9.81f,0f);
         private PlayerCurrency _playerCurrency;
-        private EventIndicator currentEventIndicator;
+        private EventIndicator _currentEventIndicator;
+        private IUIService _uiService;
+        private float _copTimer = 150f;
+        private bool _copTimerStarted = false;
+        private float _maximumCopTimer = 150f;
 
 
         private void Awake()
         {
             SetNextLevel("Lobby");
-            AllServices.Container.Single<ISaveLoadService>().SaveProgress();
-            
+            _uiService = AllServices.Container.Single<IUIService>();
             InitInput();
             WeaponController = GetComponent<WeaponController>();
             _characterController = GetComponent<CharacterController>();
             _heroAnimator = GetComponent<HeroAnimator>();
             _heroLootTracker = GetComponentInChildren<HeroLootTracker>();
-            _heroLootTracker.Init(this);
+            _heroLootTracker.Init(this, _uiService);
             _playerCurrency = GetComponent<PlayerCurrency>();
+            AllServices.Container.Single<ISaveLoadService>().SaveProgress();
         }
 
         private void InitInput()
@@ -61,9 +67,9 @@ namespace Game.Hero
         {
             _currentPosition = position;
             Vector3 direction = (_currentPosition - _startPosition).normalized;
-            Vector3 directionTransformed = new Vector3(direction.x, 0, direction.y);
+            Vector3 directionTransformed = new Vector3(direction.x, 0f, direction.y);
             float distance = Vector3.Distance(_currentPosition, _startPosition);
-            float speed = Mathf.Clamp(distance,0, 100);
+            float speed = Mathf.Clamp(distance,0f, 100f);
             if (distance > 0)
             {
                 MoveCharacter(directionTransformed, speed);
@@ -101,13 +107,23 @@ namespace Game.Hero
             MovingHero();
             CheckAttack();
             CheckEventIndicators();
+            CopTimerTick();
+        }
+
+        private void CopTimerTick()
+        {
+            if (_copTimerStarted)
+            {
+                _copTimer -= Time.deltaTime;
+                _uiService.UpdateCopUi(_copTimer, _maximumCopTimer);
+            }
         }
 
         private void CheckEventIndicators()
         {
-            if (currentEventIndicator)
+            if (_currentEventIndicator)
             {
-                currentEventIndicator.FillProgress(this);
+                _currentEventIndicator.FillProgress(this);
             }
         }
 
@@ -148,7 +164,8 @@ namespace Game.Hero
         public void LoadProgress(PlayerProgress progress)
         {
             if (progress.WorldData.PositionOnLevel.Level == CurrentLevel())
-            {/*
+            {
+                /*
                 Vector3Data savedPosition = progress.WorldData.PositionOnLevel.Position;
                 if (savedPosition != null)
                 {
@@ -157,35 +174,52 @@ namespace Game.Hero
 
                 if (progress.PlayerData != null)
                 {
-                    WeaponController.SetCurrentWeapon(progress.PlayerData.WeaponType, this);
+                    WeaponController.SetCurrentWeapon(progress.PlayerData.weaponWeaponType, this);
+                    _heroLootTracker.SetMaximumInventorySize(progress.PlayerData.MaximumStackSize);
+                    SetCopTimer(progress.PlayerData.CopDelayTime);
                 }
                 else
                 {
                     WeaponController.SetCurrentWeapon(WeaponController.CurrentWeapon.Type, this);
+                    _heroLootTracker.SetMaximumInventorySize(10);
                 }
+                Debug.Log("PlayerProgress Loaded");
             }
+        }
+
+        public void ActivateCopTimer()
+        {
+            StartCopTimer();
+        }
+
+        private void SetCopTimer(float playerDataCopDelayTime)
+        {
+            _maximumCopTimer = _copTimer = playerDataCopDelayTime;
+        }
+
+        private void StartCopTimer()
+        {
+            _copTimerStarted = true;
+        }
+
+        public void UpdateProgress(PlayerProgress progress, string currentLevel = null)
+        {
+            progress.WorldData.PositionOnLevel = new PositionOnLevel(NextLevel, transform.position.AsVectorData());
+            progress.PlayerData.weaponWeaponType = WeaponController.CurrentWeapon.Type;
+            progress.PlayerData.CopDelayTime = _maximumCopTimer;
+            Debug.Log("PlayerProgress Saved");
         }
 
         public void SetNextLevel(string value)
         {
             NextLevel = value;
         }
-        
-        public void UpdateProgress(PlayerProgress progress, string currentLevel = null)
-        {
-            if (NextLevel != currentLevel)
-            {
-                currentLevel = NextLevel;
-            }
-            progress.WorldData.PositionOnLevel = new PositionOnLevel(currentLevel, transform.position.AsVectorData());
-            progress.PlayerData.WeaponType = WeaponController.CurrentWeapon.Type;
-        }
 
         public void EscapedFromCave()
         {
             EndLevelData Data = new EndLevelData();
             Data.EarnedCash = _heroLootTracker.GetCurrency();
-            Data.CopCash = 0;
+            Data.CopCash = 0f;
             Data.EscapeResult = true;
             Data.IsLevelLobby = false;
             OnLevelEnded?.Invoke(Data);
@@ -217,7 +251,7 @@ namespace Game.Hero
         {
             if (other.CompareTag("EventIndicator"))
             {
-                currentEventIndicator = other.GetComponent<EventIndicator>();
+                _currentEventIndicator = other.GetComponent<EventIndicator>();
             }
         }
 
@@ -225,10 +259,10 @@ namespace Game.Hero
         {
             if (other.CompareTag("EventIndicator"))
             {
-                if (other.GetComponent<EventIndicator>() == currentEventIndicator)
+                if (other.GetComponent<EventIndicator>() == _currentEventIndicator)
                 {
-                    currentEventIndicator.StopFillingProgress();
-                    currentEventIndicator = null;
+                    _currentEventIndicator.StopFillingProgress();
+                    _currentEventIndicator = null;
                 }
             }
         }
@@ -243,6 +277,11 @@ namespace Game.Hero
         public void AddMoney(float objEarnedCash)
         {
             _playerCurrency.AddCurrency(objEarnedCash);
+        }
+
+        public void CollectCurrentInventory(Action<LootContainer> action)
+        {
+            StartCoroutine(_heroLootTracker.CollectCurrentCurrency(action));
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Game.Logic
 {
     public interface IInit
     {
-        void Init(IGameFactory factory);
+        void Init(IGameFactory factory, TileController controller);
     }
 }

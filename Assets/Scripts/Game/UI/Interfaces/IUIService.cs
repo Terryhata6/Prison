@@ -3,6 +3,7 @@ using System.Collections;
 using Game.Data;
 using Game.Infrastructure;
 using Game.Infrastructure.Services;
+using UnityEngine;
 
 namespace Game.UI.Interfaces
 {
@@ -11,5 +12,7 @@ namespace Game.UI.Interfaces
         void EndCaveLevelCoroutine(ICoroutineRunner coroutineRunner, EndLevelData data, Action callback);
         void SetState(UIState state);
         void UpdateUIMoney(float money);
+        void UpdateUiInventory(string value, Color textColor);
+        void UpdateCopUi(float copTimer, float maximumCopTimer);
     }
 }

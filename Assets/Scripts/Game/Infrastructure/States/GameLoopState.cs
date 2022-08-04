@@ -15,14 +15,14 @@ namespace Game.Infrastructure.States
         private HeroMove _player;
         private ICoroutineRunner _coroutineRunner;
         private IUIService _uiService;
-        private ISaveLoadService saveLoadService;
+        private ISaveLoadService _saveLoadService;
 
         public GameLoopState(GameStateMachine stateMachine, ICoroutineRunner coroutineRunner, IUIService uiService, ISaveLoadService loadService)
         {
             _stateMachine = stateMachine;
             _coroutineRunner = coroutineRunner;
             _uiService = uiService;
-            saveLoadService = loadService;
+            _saveLoadService = loadService;
         }
 
         public void Enter(HeroMove payload)
@@ -30,6 +30,14 @@ namespace Game.Infrastructure.States
             _player = payload;
             _player.OnLevelEnded += OnLevelEnded;
             _uiService.SetState(UIState.Ingame);
+            if (_player.NextLevel == "Main")
+            {
+                _player.ActivateCopTimer();
+            }
+            _player.SetNextLevel("Lobby");
+            _saveLoadService.SaveProgress();
+            
+            
         }
 
         private void OnLevelEnded(EndLevelData obj)
@@ -37,14 +45,15 @@ namespace Game.Infrastructure.States
             if (obj.IsLevelLobby)
             {
                 _player.SetNextLevel("Main");
-                saveLoadService.SaveProgress();
+                _saveLoadService.SaveProgress();
                 EndGame();
+                Debug.Log("what");
             }
             else
             {
                 _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGame);
                 _player.AddMoney(obj.EarnedCash);
-                saveLoadService.SaveProgress();
+                _saveLoadService.SaveProgress();
             }
         }
 

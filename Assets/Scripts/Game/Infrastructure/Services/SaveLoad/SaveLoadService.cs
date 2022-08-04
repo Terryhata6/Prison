@@ -24,6 +24,8 @@ namespace Game.Infrastructure.Services.SaveLoad
                 progressWriter.UpdateProgress(_progressService.Progress);
             
             PlayerPrefs.SetString(ProgressKey, value:_progressService.Progress.ToJson());
+            
+            Debug.Log("ALl ProgressWriters Saved the progress");
         }
 
         public PlayerProgress LoadProgress() =>

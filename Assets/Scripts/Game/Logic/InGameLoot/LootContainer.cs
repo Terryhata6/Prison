@@ -31,13 +31,13 @@ namespace Game.Logic.InGameLoot
             Avaiability = value;
         }
 
-        public void Collect(Transform target, Action<LootContainer> addToStuck)
+        public void CollectToBackBag(Transform target, Action<LootContainer, int> addToStuck, int currentStackCount)
         {
             SetAvailable(false);
             SetPhysics(false);
             transform.DOJump(target.position, 0.5f, 1, 0.2f).OnComplete(() =>
             {
-                addToStuck?.Invoke(this);
+                addToStuck?.Invoke(this, currentStackCount);
             });
         }
 

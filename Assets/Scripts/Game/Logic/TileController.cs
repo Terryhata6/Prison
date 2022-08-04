@@ -10,6 +10,7 @@ namespace Game.Logic
     {
         public List<TileBox> _tiles = new List<TileBox>();
         private IGameFactory _gameFactory;
+        public AstarPath _pathfinder;
 
         private void Awake()
         {
@@ -18,8 +19,13 @@ namespace Game.Logic
                 _tiles.AddRange(GetComponentsInChildren<TileBox>());
             foreach (TileBox tileBox in _tiles)
             {
-                tileBox.Init(_gameFactory);
+                tileBox.Init(_gameFactory, this);
             }
+        }
+
+        public void TileWasDestroyed(TileBox tileBox)
+        {
+            _pathfinder.Scan();
         }
     }
 }
