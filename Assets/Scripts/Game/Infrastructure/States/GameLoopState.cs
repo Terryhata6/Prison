@@ -6,6 +6,7 @@ using Game.Infrastructure.Services.SaveLoad;
 using Game.UI;
 using Game.UI.Interfaces;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.Infrastructure.States
 {
@@ -30,9 +31,9 @@ namespace Game.Infrastructure.States
             _player = payload;
             _player.OnLevelEnded += OnLevelEnded;
             _uiService.SetState(UIState.Ingame);
-            if (_player.NextLevel == "Main")
+            if (SceneManager.GetActiveScene().name == "Main")
             {
-                _player.ActivateCopTimer();
+                _player.InitCaveLevelStarted();
             }
             _player.SetNextLevel("Lobby");
             _saveLoadService.SaveProgress();
@@ -47,10 +48,10 @@ namespace Game.Infrastructure.States
                 _player.SetNextLevel("Main");
                 _saveLoadService.SaveProgress();
                 EndGame();
-                Debug.Log("what");
             }
             else
             {
+                PlayerPrefs.SetInt("TriesPlayed", PlayerPrefs.GetInt("TriesPlayed", 0) + 1);
                 _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGame);
                 _player.AddMoney(obj.EarnedCash);
                 _saveLoadService.SaveProgress();

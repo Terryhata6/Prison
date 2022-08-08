@@ -9,27 +9,40 @@ namespace Game.Hero
 {
     public class PlayerCurrency : MonoBehaviour, ISavedProgress
     {
-        public float Money;
+        public const string MoneyKey = "MoneyKey";
+        public const string CopMoneyKey = "CopMoney";
+        public float Money = 0;
         private float CopMoney;
         private IUIService uiService;
 
         public void Start()
         {
             InitUiService();
+            LoadProgress();
+            
         }
 
         public void LoadProgress(PlayerProgress progress)
         {
-            Money = progress.CurrencyData.Money;
-            CopMoney = progress.CurrencyData.CopMoney;
-            UpdateUIMoney();
+            //MoneyKey = progress.CurrencyData.MoneyKey;
+            //CopMoney = progress.CurrencyData.CopMoney;
+            LoadProgress();
             Debug.Log("CurrencyProgress Loaded");
+        }
+
+        private void LoadProgress()
+        {
+            Money = PlayerPrefs.GetFloat(MoneyKey, 0);
+            CopMoney = PlayerPrefs.GetFloat(CopMoneyKey, 0);
+            UpdateUIMoney();
         }
 
         public void UpdateProgress(PlayerProgress progress, string currentLevel = null)
         {
-            progress.CurrencyData.Money = Money;
-            Debug.Log("SaveCurrencyProgress");
+            //progress.CurrencyData.Money = Money;
+            //PlayerPrefs.SetFloat(MoneyKey, Money);
+            //PlayerPrefs.SetFloat(CopMoneyKey, CopMoney);
+            //Debug.Log("SaveCurrencyProgress");
         }
 
         public void UpdateUIMoney()
@@ -43,20 +56,28 @@ namespace Game.Hero
             if (uiService == null)
             {
                 uiService = AllServices.Container.Single<IUIService>();
+                
             }
         }
 
         public void AddCurrency(float value)
         {
             Money += value;
+            PlayerPrefs.SetFloat(MoneyKey, Money);
             UpdateUIMoney();
         }
-        
-        
+
+        public void SpendMoney(int spoonPrice)
+        {
+            Money -= spoonPrice;
+            UpdateUIMoney();
+        }
+
 
         public void AddCopSavings(float earnedCash)
         {
             CopMoney += earnedCash;
+            PlayerPrefs.SetFloat(CopMoneyKey, CopMoney);
         }
     }
 }

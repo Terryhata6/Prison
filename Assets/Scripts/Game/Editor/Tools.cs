@@ -11,5 +11,11 @@ namespace Game.Editor
             PlayerPrefs.DeleteAll();
             PlayerPrefs.Save();
         }
+        
+        [MenuItem("Tools/СломатьМайкуКостяну")]
+        public static void CLearPref()
+        {
+        }
+        
     }
 }

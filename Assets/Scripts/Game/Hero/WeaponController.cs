@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Game.Infrastructure.Services;
+using Game.Infrastructure.Services.SaveLoad;
 using UnityEngine;
 
 namespace Game.Hero
@@ -7,11 +9,11 @@ namespace Game.Hero
     public class WeaponController : MonoBehaviour
     {
         public PlayerWeapon CurrentWeapon;
-        public List<PlayerWeapon> _weapons;
+        public List<PlayerWeapon> Weapons;
         
         private void Awake()
         {
-            foreach (PlayerWeapon playerWeapon in _weapons)
+            foreach (PlayerWeapon playerWeapon in Weapons)
             {
                 playerWeapon.gameObject.SetActive(false);
             }
@@ -20,19 +22,26 @@ namespace Game.Hero
 
         public PlayerWeapon GetWeaponByType(WeaponType playerDataWeaponType)
         {
-            if(CurrentWeapon.Type == playerDataWeaponType)
-                return CurrentWeapon;
-            else
+            foreach (var weapon in Weapons)
             {
-                return CurrentWeapon;
+                if (weapon.Type == playerDataWeaponType)
+                {
+                    return weapon;
+                }
             }
+            return null;
         }
 
         public void SetCurrentWeapon(WeaponType playerDataWeaponType, HeroMove heroMove)
         {
+            foreach (var VARIABLE in Weapons)
+            {
+                VARIABLE.gameObject.SetActive(false);
+            }
             CurrentWeapon = GetWeaponByType(playerDataWeaponType);
             CurrentWeapon.gameObject.SetActive(true);
             heroMove.UpdateWeaponParams(CurrentWeapon.AttackSpeed);
+            AllServices.Container.Single<ISaveLoadService>().SaveProgress();
         }
         
         

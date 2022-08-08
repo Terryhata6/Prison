@@ -9,9 +9,9 @@ namespace Game.Logic.EventIndicator
     public class Forge : EventContainer
     {
         public HeroMove _hero;
-        public float CopperTransferValue = 5f;
-        public float IronTransferValue = 10f;
-        public float GemTransferValue= 25f;
+        public int CopperTransferValue = 5;
+        public int IronTransferValue = 10;
+        public int GemTransferValue= 25;
 
         public override void Activate(HeroMove hero)
         {
@@ -29,7 +29,7 @@ namespace Game.Logic.EventIndicator
                 return;
             }
 
-            float objValue = 0f;
+            int objValue = 0;
             switch (obj.Type)
             {
                 case CurrencyType.Void:

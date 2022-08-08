@@ -20,6 +20,7 @@ namespace Game.Logic.Cop
         private float _timer = 3f;
         public float _pathfindingDelay = 2f;
         public Animator _animator;
+        private bool _playerCatched = false;
 
         public void Start()
         {
@@ -45,6 +46,11 @@ namespace Game.Logic.Cop
 
         public void Update()
         {
+            if (_playerCatched)
+            {
+                _animator.SetBool("Run", false);
+                return;
+            }
             if (path == null)
             {
                 // We have no path to follow yet, so don't do anything
@@ -89,10 +95,13 @@ namespace Game.Logic.Cop
             Vector3 dir = (path.vectorPath[currentWaypoint] - transform.position).normalized;
             // Multiply the direction by our desired speed to get a velocity
             Vector3 velocity = dir * speed; // * speedFactor;
+            
             _animator.SetBool("Run", true);
             // Move the agent using the CharacterController component
             // Note that SimpleMove takes a velocity in meters/second, so we should not multiply by Time.deltaTime
-            transform.LookAt(transform.position + dir, Vector3.up);
+            Vector3 lookDirection = new Vector3(transform.position.x + dir.x, transform.position.y,
+                transform.position.z + dir.z);
+            transform.LookAt(lookDirection, Vector3.up);
             _controller.SimpleMove(velocity);
 
 
@@ -106,9 +115,19 @@ namespace Game.Logic.Cop
 
         public void OnCollisionEnter(Collision other)
         {
-            if (other.collider.CompareTag("Player"))
+            if (other.collider.CompareTag("Player") && _playerCatched == false)
             {
                 _player.ReturnToJail();
+            }
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Player") && _playerCatched == false)
+            {
+                _playerCatched = true;
+                _player.ReturnToJail();
+                GetComponent<CapsuleCollider>().enabled = false;
             }
         }
     }

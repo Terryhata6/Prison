@@ -27,9 +27,9 @@ namespace Game.UI
         public TMP_Text InGameInventory;
 
         [Header("CopArrow")] public Transform _copHolder;
-        public Transform _copArrow;
-        public Transform _copArrowStart;
-        public Transform _copArrowFinish;
+        public RectTransform _copArrow;
+        public RectTransform _copArrowStart;
+        public RectTransform _copArrowFinish;
 
         private void Awake()
         {
@@ -58,8 +58,8 @@ namespace Game.UI
                 CatchedUI.SetActive(true);
             }
 
-            EarnedCashUI.text = "You get: " + data.EarnedCash.ToString() + "$";
-            CopCashUI.text = "Cop get: " + data.CopCash.ToString() + "$";
+            EarnedCashUI.text = "You get: " + data.EarnedCash + "$";
+            CopCashUI.text = "Cop get: " + data.CopCash + "$";
 
             bool flag = false;
             _uiNextLevelButton.onClick.AddListener(() =>
@@ -98,11 +98,14 @@ namespace Game.UI
         {
             if (copTimer <= 0)
             {
+                _copArrow.position = Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
+                    copTimer / maximumCopTimer);
                 _copHolder.gameObject.SetActive(false);
             }
             else
             {
-                _copArrow.position = Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
+                _copHolder.gameObject.SetActive(true);
+                _copArrow.position= Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
                     copTimer / maximumCopTimer);
             }
         }

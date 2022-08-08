@@ -52,6 +52,7 @@ namespace Game.Logic.EventIndicator
         private void Deactivate()
         {
             Container.Deactivate();
+            UIIndicator.gameObject.SetActive(false);
             CanFillProgress = true;
             Activated = !CanFillProgress;
         }

@@ -57,6 +57,7 @@ MonoBehaviour:
   IronGO: {fileID: 4931410928729160863}
   CopperGO: {fileID: 4807201672529790788}
   GemGO: {fileID: 6117695477618771770}
+  CurrentTransform: {fileID: 0}
 --- !u!65 &8211933648898867730
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -380,7 +381,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6117695477618771770}
-  m_Mesh: {fileID: -4011568650394845662, guid: 9d84666c5e429244c991fce122fbabdb, type: 3}
+  m_Mesh: {fileID: -4011568650394845662, guid: f4efdfdd5c665a04b943b29ca41cd8ea, type: 3}
 --- !u!23 &5235722133568990523
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -404,6 +405,7 @@ MeshRenderer:
   - {fileID: 2100000, guid: e7b76f4b96e6d5d4a886b97bcfc62c37, type: 2}
   - {fileID: 2100000, guid: bf3be5abf992d1741915b96652fadbb4, type: 2}
   - {fileID: 2100000, guid: 547145961d9b89746be440855510092e, type: 2}
+  - {fileID: 2100000, guid: fc92de0faf25de2499e13e5c681eed1a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

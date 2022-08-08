@@ -3,7 +3,52 @@ guid: 2db8deac59df4774c9dee90d31702623
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Black
+    second: {fileID: 2100000, guid: 93f41f0f87f4e0242a169d696b1c8cb9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Guard_2
+    second: {fileID: 2100000, guid: 0ff0c56c9bbeace4ea959ea7e80bc450, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Orange
+    second: {fileID: 2100000, guid: 2c8828025d7eed64eb07461fac777fa1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Security
+    second: {fileID: 2100000, guid: f8089910fa1f94c46b593f5c918180b5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin
+    second: {fileID: 2100000, guid: f83a8a662126626408bb1a51a961a178, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Skin6
+    second: {fileID: 2100000, guid: f6f79c3c3ac12084fa4db3b09629f935, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: White
+    second: {fileID: 2100000, guid: d8fc7c67e226b254fb8d7dec57c14401, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: blinn4
+    second: {fileID: 2100000, guid: d2ab9d0135df8e14faddc2b8d064997f, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: metal
+    second: {fileID: 2100000, guid: 337b6a3884d481643ac6641e073e0204, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
