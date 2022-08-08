@@ -15,6 +15,7 @@ namespace Game.Logic
         public TMP_Text CurrentTime;
         public TMP_Text UpgradePrice;
         public TMP_Text NextTime;
+        public float TimeUpgradeValue = 20;
 
         public override void Init(HeroMove hero, Button upgradeButton)
         {
@@ -25,14 +26,14 @@ namespace Game.Logic
             int currentCopTime = Mathf.RoundToInt(hero.MaximumCopTimer);
             NextUpgradePrice = currentCopTime * (2 + currentCopTime / 10);
             CurrentTime.text = currentCopTime + "sec";
-            NextTime.text = (currentCopTime + 30) + "sec";
+            NextTime.text = (currentCopTime + TimeUpgradeValue) + "sec";
             UpgradePrice.text = NextUpgradePrice + "$";
             
             upgradeButton.onClick.RemoveAllListeners();
 
             if (hero.Currency.Money >= NextUpgradePrice)
             {
-                if ((currentCopTime) < 150)
+                if ((currentCopTime) < 300)
                 {
                     upgradeButton.onClick.AddListener(() => UpgradeCopTime(heroMove:hero, upgradeButton:upgradeButton, NextUpgradePrice));
                     upgradeButton.interactable = true;
@@ -58,7 +59,7 @@ namespace Game.Logic
 
         private void UpgradeCopTime(HeroMove heroMove, Button upgradeButton, int price)
         {
-            heroMove.UpgradeCopDelayTimer(20f, price);
+            heroMove.UpgradeCopDelayTimer(TimeUpgradeValue, price);
             
             Init(heroMove, upgradeButton: upgradeButton);
         }

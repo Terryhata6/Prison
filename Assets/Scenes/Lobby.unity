@@ -1772,11 +1772,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CurrentTries: 0
   _objects:
-  - TryNumber: 0
+  - TryNumber: 2
     gameObject: {fileID: 640222622}
-  - TryNumber: 0
+  - TryNumber: 3
     gameObject: {fileID: 320162981}
-  - TryNumber: 0
+  - TryNumber: 1
     gameObject: {fileID: 771627278}
 --- !u!1 &514006014
 GameObject:

@@ -8,12 +8,22 @@ namespace Game.Infrastructure.Lobby
     {
         public int CurrentTries;
         public List<ProgressDependencyObject> _objects;
+
         private void Awake()
         {
-            CurrentTries = PlayerPrefs.GetInt("TriesPlayed",0);
+            CurrentTries = PlayerPrefs.GetInt("TriesPlayed", 0);
             foreach (var obj in _objects)
+            {
                 if (obj.TryNumber > CurrentTries)
                     obj.gameObject.SetActive(false);
+                else if (obj.TryNumber == CurrentTries)
+                {
+                    if (obj.gameObject.TryGetComponent<RevealMerchant>(out var revealMerchant))
+                    {
+                        revealMerchant.Reveal();
+                    }
+                }
+            }
         }
     }
 
