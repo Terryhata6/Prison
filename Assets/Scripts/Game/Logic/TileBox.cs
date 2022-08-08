@@ -21,7 +21,7 @@ namespace Game.Logic
         private TileController _tileController;
         public Transform CurrentTransform;
 
-        public void Init(IGameFactory factory, TileController tileController)
+        public GameObject Init(IGameFactory factory, TileController tileController)
         {
             _tileController = tileController;
             _factory = factory;
@@ -62,6 +62,7 @@ namespace Game.Logic
                 default:
                     break;
             }
+            return CurrentTransform.gameObject;
         }
     
         public void GetDamage(Action onDeath, float damage = 1f)

@@ -1,0 +1,247 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d41887b1546f5c44ab54e7e65aad3bc, type: 3}
+  m_Name: result2
+  m_EditorClassIdentifier: 
+  version: 3252
+  resultType: 0
+  materialsAndUVRects:
+  - material: {fileID: 2100000, guid: 07c7331624a3dfc4bbee04c2afeef169, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0078125
+      y: 0.015625
+      width: 0.015625
+      height: 0.03125
+    srcObjName: Iron
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: ebb6638aa0571b8459808e666a6a61fb, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.3828125
+      y: 0.765625
+      width: 0.015625
+      height: 0.03125
+    srcObjName: Plane
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: e7b76f4b96e6d5d4a886b97bcfc62c37, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.00390625
+      y: 0.0078125
+      width: 0.0078125
+      height: 0.015625
+    srcObjName: Iron
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: bf3be5abf992d1741915b96652fadbb4, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.00390625
+      y: 0.0078125
+      width: 0.0078125
+      height: 0.015625
+    srcObjName: Iron
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: 401804805828d5446aa21032da195c02, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0078125
+      y: 0.015625
+      width: 0.015625
+      height: 0.03125
+    srcObjName: Copper
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: 547145961d9b89746be440855510092e, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0078125
+      y: 0.015625
+      width: 0.015625
+      height: 0.03125
+    srcObjName: GemStone
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  - material: {fileID: 2100000, guid: fc92de0faf25de2499e13e5c681eed1a, type: 2}
+    atlasRect:
+      serializedVersion: 2
+      x: 0.0078125
+      y: 0.015625
+      width: 0.015625
+      height: 0.03125
+    srcObjName: GemStone
+    textureArraySliceIdx: -1
+    allPropsUseSameTiling: 1
+    allPropsUseSameTiling_sourceMaterialTiling:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    allPropsUseSameTiling_samplingEncapsulatinRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 1
+      height: 1
+    propsUseDifferntTiling_srcUVsamplingRect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    tilingTreatment: 0
+  resultMaterials:
+  - combinedMaterial: {fileID: 2100000, guid: 6285c9e6bccf63546b34fff4f9b462a8, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: 07c7331624a3dfc4bbee04c2afeef169, type: 2}
+  - combinedMaterial: {fileID: 2100000, guid: bbf72801fdd043a44b63def8c3c5174b, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: e7b76f4b96e6d5d4a886b97bcfc62c37, type: 2}
+  - combinedMaterial: {fileID: 2100000, guid: 76fd19f42b15c384eae83856dacfe903, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: bf3be5abf992d1741915b96652fadbb4, type: 2}
+  - combinedMaterial: {fileID: 2100000, guid: 3b45b815148d1fc459fb001a6c00e5ba, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: 401804805828d5446aa21032da195c02, type: 2}
+  - combinedMaterial: {fileID: 2100000, guid: 30f35f44ef692d247b9e845ef399849e, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: 547145961d9b89746be440855510092e, type: 2}
+  - combinedMaterial: {fileID: 2100000, guid: 473a4629b649f4c49bc77bbaa74dde4b, type: 2}
+    considerMeshUVs: 0
+    sourceMaterials:
+    - {fileID: 2100000, guid: fc92de0faf25de2499e13e5c681eed1a, type: 2}
+  resultMaterialsTexArray: []
+  doMultiMaterial: 1

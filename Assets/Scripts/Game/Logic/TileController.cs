@@ -12,20 +12,34 @@ namespace Game.Logic
         private IGameFactory _gameFactory;
         public AstarPath _pathfinder;
 
+        [Header("Baking")] public List<GameObject> RenderersToBake = new List<GameObject>();
+        public MB3_MeshBaker baker;
+        
+        
         private void Awake()
         {
+            RenderersToBake.Clear();
             _gameFactory = AllServices.Container.Single<IGameFactory>();
             if (_tiles.Count < 1)
                 _tiles.AddRange(GetComponentsInChildren<TileBox>());
             foreach (TileBox tileBox in _tiles)
             {
-                tileBox.Init(_gameFactory, this);
+                AddToBakingList(tileBox.Init(_gameFactory, this));
             }
+
+            baker.AddDeleteGameObjects(RenderersToBake.ToArray(), null, true);
+            baker.Apply();
+            
         }
 
         public void TileWasDestroyed(TileBox tileBox)
         {
             _pathfinder.Scan();
+        }
+
+        public void AddToBakingList(GameObject box)
+        {
+            RenderersToBake.Add(box);
         }
     }
 }

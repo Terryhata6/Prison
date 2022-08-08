@@ -38,11 +38,18 @@ namespace Game.Logic.EventIndicator
                     Arrow.gameObject.SetActive(true);
                     if (hero.Currency.Money >= SpoonPrice)
                     {
+                        upgradeButton.interactable = true;
+                        PriceText.color = Color.green;
                         upgradeButton.onClick.AddListener(() =>
                         {
                             hero.SpendMoney(SpoonPrice);
                             UpgradeHeroWeapon(hero, WeaponType.Spoon, SpoonPrice);
                         });
+                    }
+                    else
+                    {
+                        upgradeButton.interactable = false;
+                        PriceText.color = Color.red;
                     }
                     
                     break;
@@ -56,7 +63,14 @@ namespace Game.Logic.EventIndicator
                     Arrow.gameObject.SetActive(true);
                     if (hero.Currency.Money >= PickaxePrice)
                     {
+                        upgradeButton.interactable = true;
+                        PriceText.color = Color.green;
                         upgradeButton.onClick.AddListener(() => UpgradeHeroWeapon(hero, WeaponType.Pickaxe, PickaxePrice));
+                    }
+                    else
+                    {
+                        upgradeButton.interactable = false;
+                        PriceText.color = Color.red;
                     }
                     break;
                 }
@@ -64,6 +78,7 @@ namespace Game.Logic.EventIndicator
                 {
                     Arrow.gameObject.SetActive(false);
                     MidKirka.gameObject.SetActive(true);
+                    upgradeButton.gameObject.SetActive(false);
                     break;
                 }
                 default:

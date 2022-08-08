@@ -63,12 +63,21 @@ namespace Game.Logic.Cop
             // several of them in the same frame.
             reachedEndOfPath = false;
             // The distance to the next waypoint in the path
-            float distanceToWaypoint;
+            float distanceToWaypoint = 0;
             while (true)
             {
+                
                 // If you want maximum performance you can check the squared distance instead to get rid of a
                 // square root calculation. But that is outside the scope of this tutorial.
-                distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
+                
+
+                if(path.vectorPath.Count > 0)
+                    distanceToWaypoint = Vector3.Distance(transform.position, path.vectorPath[currentWaypoint]);
+                else
+                {
+                    _animator.SetBool("Run", false);
+                    return;
+                }
                 if (distanceToWaypoint < nextWaypointDistance)
                 {
                     // Check if there is another waypoint or if we have reached the end of the path
