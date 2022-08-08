@@ -67,7 +67,9 @@ namespace Game.Logic
         public void GetDamage(Action onDeath, float damage = 1f)
         {
             _health -= damage;
-            for (int i = 0; i < damage; i++)
+            int delta = 1;
+            
+            for (int i = 0; i < damage; i+=delta)
             {
                 SpawnCurrency(Type);
             }

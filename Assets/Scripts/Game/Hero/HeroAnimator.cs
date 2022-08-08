@@ -1,6 +1,5 @@
 using System;
 using Game.Enemy;
-using UnityEditor.Animations;
 using UnityEngine;
 using AnimatorState = Game.Enums.AnimatorState;
 
