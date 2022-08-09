@@ -70,6 +70,7 @@ namespace Game.Hero
         public void SpendMoney(int spoonPrice)
         {
             Money -= spoonPrice;
+            PlayerPrefs.SetFloat(MoneyKey, Money);
             UpdateUIMoney();
         }
 

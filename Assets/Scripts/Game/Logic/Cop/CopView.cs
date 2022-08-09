@@ -1,5 +1,7 @@
 using System;
 using Game.Hero;
+using Game.Infrastructure.Services;
+using Game.Infrastructure.States;
 using Pathfinding;
 using UnityEngine;
 
@@ -29,7 +31,7 @@ namespace Game.Logic.Cop
             {
                 _animator = GetComponentInChildren<Animator>();
             }
-
+            AllServices.Container.Single<ISoundController>().PlaySound("Alarm");
             FindPath();
         }
 

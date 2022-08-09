@@ -1,3 +1,5 @@
+using System;
+using Game.Logic;
 using UnityEngine;
 
 namespace Game.Hero
@@ -6,7 +8,11 @@ namespace Game.Hero
     {
         public WeaponType Type;
         public float AttackSpeed  = 1f;
-        
+        public void ActivateHitCollider()
+        {
+            
+        }
+
     }
 
     public enum WeaponType

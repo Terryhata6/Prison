@@ -1,5 +1,7 @@
 using System;
 using Game.Hero;
+using Game.Infrastructure.Services;
+using Game.Infrastructure.States;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -44,6 +46,7 @@ namespace Game.Logic.EventIndicator
 
         private void Activate(HeroMove heroMove)
         {
+            AllServices.Container.Single<ISoundController>().PlaySound("IndicatorFilled");
             Container.Activate(heroMove);
             CanFillProgress = false;
             Activated = !CanFillProgress;

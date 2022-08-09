@@ -1,6 +1,8 @@
 using System;
 using Game.Data;
 using Game.Enums;
+using Game.Infrastructure.Analytics;
+using Game.Infrastructure.Particles;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Infrastructure.Services.SaveLoad;
@@ -40,6 +42,7 @@ namespace Game.Hero
         private float _copTimer = 30f;
         private bool _copTimerStarted = false;
         public float MaximumCopTimer = 30f;
+        private Vector3 CurrentHitPoint = Vector3.zero;
 
 
         private void Awake()
@@ -112,11 +115,22 @@ namespace Game.Hero
         private static string CurrentLevel() => SceneManager.GetActiveScene().name;
 
 
-        private void Attack() => _heroAnimator.PlayAttack();
+        private void Attack()
+        {
+            WeaponController.CurrentWeapon.ActivateHitCollider();
+            _heroAnimator.PlayAttack();
+        }
 
         public void CheckHit()
         {
-            if (CurrentTileBox) CurrentTileBox.GetDamage(StopAttack);
+            if (CurrentTileBox)
+            {
+                AllServices.Container.Single<ISoundController>().PlaySound("Digging");
+                CurrentTileBox.GetDamage(StopAttack);
+                var vector3 = new Vector3(transform.position.x,CurrentHitPoint.y, transform.position.z);
+                AllServices.Container.Single<IParticlesController>().PlayParticle("TileHit", CurrentHitPoint, 
+                    Quaternion.LookRotation(vector3 - CurrentHitPoint));
+            }
         }
 
         private void Update()
@@ -160,6 +174,7 @@ namespace Game.Hero
                     {
                         Attack();
                         CurrentTileBox = _hitInfo.collider.gameObject.GetComponent<TileBox>();
+                        CurrentHitPoint = _hitInfo.point;
                     }
                     else
                     {
@@ -200,7 +215,8 @@ namespace Game.Hero
 
         private void SetCopTimer(float playerDataCopDelayTime)
         {
-            MaximumCopTimer = _copTimer = playerDataCopDelayTime;
+            MaximumCopTimer = _copTimer = PlayerPrefs.GetFloat("CopTimerCurrentValue", 30f);
+            //MaximumCopTimer = _copTimer = playerDataCopDelayTime;
         }
 
         private void StartCopTimer()
@@ -212,6 +228,7 @@ namespace Game.Hero
         {
             Currency.SpendMoney(price);
             MaximumCopTimer += timeDelay;
+            PlayerPrefs.SetFloat("CopTimerCurrentValue", MaximumCopTimer);
             AllServices.Container.Single<ISaveLoadService>().SaveProgress();
         }
         #endregion
@@ -272,6 +289,8 @@ namespace Game.Hero
             Data.CopCash = 0f;
             Data.EscapeResult = true;
             Data.IsLevelLobby = false;
+            AllServices.Container.Single<ISoundController>().PlaySound("Victory");
+            AllServices.Container.Single<IAnalytics>().OnLevelVictory();
             OnLevelEnded?.Invoke(Data);
         }
 
@@ -284,6 +303,8 @@ namespace Game.Hero
             Data.CopCash = cashValue * 0.4f;
             Data.EscapeResult = false;
             Data.IsLevelLobby = false;
+            AllServices.Container.Single<ISoundController>().PlaySound("Lose");
+            AllServices.Container.Single<IAnalytics>().OnLevelFailed();
             OnLevelEnded?.Invoke(Data);
         }
 
@@ -357,5 +378,10 @@ namespace Game.Hero
         public void UpdateWeaponParams(float currentWeaponAttackSpeed) => _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
 
         #endregion
+
+        public void StartJoinCaveTutorial()
+        {
+            
+        }
     }
 }

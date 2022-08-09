@@ -1362,8 +1362,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _arrowView: {fileID: 2633400674399289425}
-  Height: 1.75
-  Distance: 1
+  Height: 2.25
+  Distance: 0.5
 --- !u!1 &8869193211898697106
 GameObject:
   m_ObjectHideFlags: 0
@@ -1517,6 +1517,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7417e36776bf8ac4a8cbaa5fbc8b87cd,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7417e36776bf8ac4a8cbaa5fbc8b87cd,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7417e36776bf8ac4a8cbaa5fbc8b87cd,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7417e36776bf8ac4a8cbaa5fbc8b87cd,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -1528,7 +1543,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 7417e36776bf8ac4a8cbaa5fbc8b87cd,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.782
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7417e36776bf8ac4a8cbaa5fbc8b87cd,
         type: 3}

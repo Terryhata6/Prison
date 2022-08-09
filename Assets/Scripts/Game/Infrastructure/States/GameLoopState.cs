@@ -1,6 +1,7 @@
 using System.Collections;
 using Game.Data;
 using Game.Hero;
+using Game.Infrastructure.Analytics;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.SaveLoad;
 using Game.UI;
@@ -17,13 +18,16 @@ namespace Game.Infrastructure.States
         private ICoroutineRunner _coroutineRunner;
         private IUIService _uiService;
         private ISaveLoadService _saveLoadService;
+        private IAnalytics _analyticsService;
 
-        public GameLoopState(GameStateMachine stateMachine, ICoroutineRunner coroutineRunner, IUIService uiService, ISaveLoadService loadService)
+        public GameLoopState(GameStateMachine stateMachine, ICoroutineRunner coroutineRunner, IUIService uiService,
+            ISaveLoadService loadService, IAnalytics analyticsService)
         {
             _stateMachine = stateMachine;
             _coroutineRunner = coroutineRunner;
             _uiService = uiService;
             _saveLoadService = loadService;
+            _analyticsService = analyticsService;
         }
 
         public void Enter(HeroMove payload)
@@ -34,10 +38,18 @@ namespace Game.Infrastructure.States
             if (SceneManager.GetActiveScene().name == "Main")
             {
                 _player.InitCaveLevelStarted();
+                
+            }
+            else
+            {
+                if (PlayerPrefs.GetInt("TriesPlayed", 0) < 1)
+                {
+                    _player.StartJoinCaveTutorial();
+                }
             }
             _player.SetNextLevel("Lobby");
             _saveLoadService.SaveProgress();
-            
+            _analyticsService.OnLevelStart();
             
         }
 
@@ -51,6 +63,7 @@ namespace Game.Infrastructure.States
             }
             else
             {
+                
                 PlayerPrefs.SetInt("TriesPlayed", PlayerPrefs.GetInt("TriesPlayed", 0) + 1);
                 _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGame);
                 _player.AddMoney(obj.EarnedCash);

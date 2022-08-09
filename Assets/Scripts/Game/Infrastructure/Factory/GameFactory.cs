@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
 using Game.Hero;
+using Game.Infrastructure.Analytics;
 using Game.Infrastructure.AssetManagment;
+using Game.Infrastructure.Particles;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
+using Game.Infrastructure.Tutorial;
 using Game.Logic;
 using Game.Logic.Services;
 using UnityEngine;
@@ -82,6 +85,20 @@ namespace Game.Infrastructure.Factory
         }
 
         public GameObject CreateUI() => _assets.Instantiate(AssetPath.UIPath);
+        public IParticlesController CreateParticleController()
+        {
+            return _assets.Instantiate(AssetPath.ParticleControllerPath).GetComponent<IParticlesController>();
+        }
+
+        public ITutorial CreateTutorial()
+        {
+            return _assets.Instantiate(AssetPath.TutorialPath).GetComponent<ITutorial>();
+        }
+
+        public IAnalytics CreateAnalytics()
+        {
+            return _assets.Instantiate(AssetPath.AnalyticsPath).GetComponent<IAnalytics>();
+        }
 
         private static Vector3 GetNewCurrencyPosition(HeroMove heroMove)
         {

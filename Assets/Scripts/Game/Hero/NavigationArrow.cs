@@ -20,7 +20,7 @@ namespace Game.Hero
             _target = FindObjectOfType<CaveExit>();
             ActivateNavigation(heroMove);
         }
-
+        
         private void ActivateNavigation(HeroMove heroMove)
         {
             _heroMove = heroMove;
@@ -33,8 +33,6 @@ namespace Game.Hero
             while (true)
             {
                 var heroPosition = _heroMove.transform.position;
-                Height = 0.75f;
-                Distance = 1.5f;
                 transform.position = heroPosition + (target.transform.position - heroPosition).normalized * Distance + Vector3.up * Height;
                 transform.LookAt(target:target);
                 yield return null;

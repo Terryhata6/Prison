@@ -15,7 +15,7 @@ public class JailDoorController : MonoBehaviour
     {
         if (PlayerPrefs.GetInt(DoorId, 0) > 0)
         {
-            _doorTransform.rotation.SetLookRotation(_openedRotation);
+            _doorTransform.Rotate(-_closedRotation);
             _doorCollider.enabled = false;
         }
         else

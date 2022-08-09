@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using Game.Infrastructure.Services;
+using Game.Infrastructure.States;
 using Game.Logic;
 using Game.Logic.InGameLoot;
 using Game.UI.Interfaces;
@@ -91,6 +92,7 @@ namespace Game.Hero
         {
             while (_currencyStack.Count > 0)
             {
+                AllServices.Container.Single<ISoundController>().PlaySound("ThrowIngot");
                 var container = GetLastContainer();
                 containerOperator?.Invoke(container);
                 yield return new WaitForSeconds(0.1f);

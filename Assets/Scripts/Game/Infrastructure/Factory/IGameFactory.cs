@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using Game.Hero;
+using Game.Infrastructure.Analytics;
+using Game.Infrastructure.Particles;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
+using Game.Infrastructure.Tutorial;
 using Game.Logic;
 using Game.Logic.Services;
 using UnityEngine;
@@ -21,5 +24,8 @@ namespace Game.Infrastructure.Factory
         GameObject CreateCurrency(CurrencyType currencyType, Vector3 position, HeroMove heroMove);
         void LoadLevelTiles();
         GameObject CreateUI();
+        IParticlesController CreateParticleController();
+        ITutorial CreateTutorial();
+        IAnalytics CreateAnalytics();
     }
 }

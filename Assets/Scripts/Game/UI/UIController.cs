@@ -58,13 +58,12 @@ namespace Game.UI
                 CatchedUI.SetActive(true);
             }
 
-            EarnedCashUI.text = "You get: " + data.EarnedCash + "$";
-            CopCashUI.text = "Cop get: " + data.CopCash + "$";
+            EarnedCashUI.text =  data.EarnedCash + "$";
+            CopCashUI.text =  data.CopCash + "$";
 
             bool flag = false;
             _uiNextLevelButton.onClick.AddListener(() =>
             {
-                Debug.Log("ButtonDown");
                 flag = true;
                 callback?.Invoke();
                 _uiNextLevelButton.onClick.RemoveAllListeners();

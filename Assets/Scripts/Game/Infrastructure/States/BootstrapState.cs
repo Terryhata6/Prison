@@ -1,11 +1,16 @@
+using Game.Infrastructure.Analytics;
 using Game.Infrastructure.AssetManagment;
 using Game.Infrastructure.Factory;
+using Game.Infrastructure.Particles;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
 using Game.Infrastructure.Services.SaveLoad;
+using Game.Infrastructure.Tutorial;
 using Game.Logic.Services;
 using Game.UI;
 using Game.UI.Interfaces;
+using Unity.VisualScripting;
+using UnityEngine;
 
 namespace Game.Infrastructure.States
 {
@@ -44,6 +49,35 @@ namespace Game.Infrastructure.States
             _services.RegisterSingle<IInputService>(SetupInputService()); 
             _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistantProgressService>(), _services.Single<IGameFactory>()));
             _services.RegisterSingle<IUIService>(new UIService(_services.Single<IGameFactory>()));
+            _services.RegisterSingle<IParticlesController>(SetupParticleController());
+            _services.RegisterSingle<ITutorial>(SetupTutorial());
+            _services.RegisterSingle<IAnalytics>(SetupAnalytics());
+            _services.RegisterSingle<ISoundController>(SetupSoundController());
+            
+        }
+
+        private ISoundController SetupSoundController()
+        {
+            var soundController = GameObject.FindObjectOfType<SoundController>();
+            return soundController;
+        }
+
+        private IAnalytics SetupAnalytics()
+        {
+            var analytics = GameObject.FindObjectOfType<Analytics.Analytics>();
+            if (analytics != null)
+                return analytics;
+            return _services.Single<IGameFactory>().CreateAnalytics();
+        }
+
+        private ITutorial SetupTutorial()
+        {
+            return _services.Single<IGameFactory>().CreateTutorial();
+        }
+
+        private IParticlesController SetupParticleController()
+        {
+            return _services.Single<IGameFactory>().CreateParticleController();
         }
 
         public void Exit()

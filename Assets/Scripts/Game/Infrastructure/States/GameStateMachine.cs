@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Game.Infrastructure.Analytics;
 using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
@@ -21,7 +22,11 @@ namespace Game.Infrastructure.States
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingCurtain, services.Single<IGameFactory>(), services.Single<IPersistantProgressService>()),
-                [typeof(GameLoopState)] = new GameLoopState(this, coroutineRunner, services.Single<IUIService>(), AllServices.Container.Single<ISaveLoadService>()),
+                [typeof(GameLoopState)] = new GameLoopState(this,
+                    coroutineRunner, 
+                    services.Single<IUIService>(),
+                    AllServices.Container.Single<ISaveLoadService>(),
+                    AllServices.Container.Single<IAnalytics>()),
                 [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistantProgressService>(), 
                 services.Single<ISaveLoadService>())
             };

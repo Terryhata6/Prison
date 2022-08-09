@@ -2,6 +2,8 @@ using System;
 using DG.Tweening;
 using Game.Hero;
 using Game.Infrastructure.Factory;
+using Game.Infrastructure.Services;
+using Game.Infrastructure.States;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -105,6 +107,7 @@ namespace Game.Logic
             {
                 if (death)
                 {
+                    AllServices.Container.Single<ISoundController>().PlaySound("TileDestroyed");
                     Destroy(this.gameObject);
                 }
             });

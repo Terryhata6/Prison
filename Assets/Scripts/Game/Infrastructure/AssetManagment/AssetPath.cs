@@ -11,6 +11,8 @@ namespace Game.Infrastructure.AssetManagment
         public const string GemCurrencyPath = "Currency/Gem";
         public const string TileLevelPath = "Levels/TileLevel";
         public const string UIPath = "UI/UI";
-
+        public const string ParticleControllerPath = "Particles/ParticlesController";
+        public const string TutorialPath = "Tutorial/Tutorial";
+        public const string AnalyticsPath = "Analytics/Analytics";
     }
 }

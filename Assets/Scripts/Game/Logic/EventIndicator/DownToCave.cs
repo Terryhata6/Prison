@@ -1,4 +1,6 @@
 using Game.Hero;
+using Game.Infrastructure.Services;
+using Game.Infrastructure.States;
 
 namespace Game.Logic.EventIndicator
 {
@@ -6,6 +8,7 @@ namespace Game.Logic.EventIndicator
     {
         public override void Activate(HeroMove hero)
         {
+            AllServices.Container.Single<ISoundController>().PlaySound("JumpInCave");
             hero.GoToCave();
         }
 
