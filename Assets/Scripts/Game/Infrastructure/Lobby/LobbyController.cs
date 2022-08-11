@@ -1,27 +1,28 @@
 using System;
 using System.Collections.Generic;
+using Game.Hero;
 using UnityEngine;
 
 namespace Game.Infrastructure.Lobby
 {
     public class LobbyController : MonoBehaviour
     {
-        public int CurrentTries;
+        public float CurrentMoney;
         public List<ProgressDependencyObject> _objects;
 
-        private void Awake()
+        private void Start()
         {
-            CurrentTries = PlayerPrefs.GetInt("TriesPlayed", 0);
+            CurrentMoney = PlayerPrefs.GetFloat("MoneyKey");
+            
             foreach (var obj in _objects)
             {
-                if (obj.TryNumber > CurrentTries)
-                    obj.gameObject.SetActive(false);
-                else if (obj.TryNumber == CurrentTries)
+                if (obj.MoneyCount > CurrentMoney && PlayerPrefs.GetInt(obj.gameObject.name + "IsOpened", 0) == 0)
                 {
-                    if (obj.gameObject.TryGetComponent<RevealMerchant>(out var revealMerchant))
-                    {
-                        revealMerchant.Reveal();
-                    }
+                    obj.gameObject.SetActive(false);
+                }
+                else 
+                {
+                    PlayerPrefs.SetInt(obj.gameObject.name + "IsOpened", 1);
                 }
             }
         }
@@ -30,7 +31,7 @@ namespace Game.Infrastructure.Lobby
     [Serializable]
     public struct ProgressDependencyObject
     {
-        public int TryNumber;
+        public float MoneyCount;
         public GameObject gameObject;
     }
 }

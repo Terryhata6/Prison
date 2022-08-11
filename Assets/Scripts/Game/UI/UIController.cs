@@ -31,6 +31,8 @@ namespace Game.UI
         public RectTransform _copArrowStart;
         public RectTransform _copArrowFinish;
 
+        [Header("UserMessage")] public TMP_Text _userMessageText;
+
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
@@ -107,6 +109,19 @@ namespace Game.UI
                 _copArrow.position= Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
                     copTimer / maximumCopTimer);
             }
+        }
+
+        public void CallUserMessage(string message, float duration)
+        {
+            StartCoroutine(CallUserMessageCoroutine(message, duration));
+        }
+
+        private IEnumerator CallUserMessageCoroutine(string message, float duration)
+        {
+            _userMessageText.text = message;
+            _userMessageText.gameObject.SetActive(true);
+            yield return new WaitForSeconds(duration);
+            _userMessageText.gameObject.SetActive(false);
         }
     }
 }

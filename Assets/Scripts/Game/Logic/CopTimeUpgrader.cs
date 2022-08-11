@@ -25,8 +25,8 @@ namespace Game.Logic
         
             int currentCopTime = Mathf.RoundToInt(hero.MaximumCopTimer);
             NextUpgradePrice = currentCopTime * (2 + currentCopTime / 10);
-            CurrentTime.text = currentCopTime + "sec";
-            NextTime.text = (currentCopTime + TimeUpgradeValue) + "sec";
+            CurrentTime.text = currentCopTime + " sec";
+            NextTime.text = (currentCopTime + TimeUpgradeValue) + " sec";
             UpgradePrice.text = NextUpgradePrice + "$";
             
             upgradeButton.onClick.RemoveAllListeners();
@@ -35,13 +35,14 @@ namespace Game.Logic
             {
                 if ((currentCopTime) < 300)
                 {
+                    upgradeButton.onClick.RemoveAllListeners();
                     upgradeButton.onClick.AddListener(() => UpgradeCopTime(heroMove:hero, upgradeButton:upgradeButton, NextUpgradePrice));
                     upgradeButton.interactable = true;
                     EnoughMoneyUi.SetActive(true);
                 }
                 else
                 {
-                    CurrentTime.text = currentCopTime + "sec";
+                    CurrentTime.text = currentCopTime + " sec";
                     NextTime.text = "";
                     NextUpgradePrice = 9999;
                     UpgradePrice.text = "";

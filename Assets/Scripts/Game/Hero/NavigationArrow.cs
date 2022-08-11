@@ -17,7 +17,27 @@ namespace Game.Hero
 
         public void ActivateNavigationToCaveExit(HeroMove heroMove)
         {
-            _target = FindObjectOfType<CaveExit>();
+            foreach (var exits in FindObjectsOfType<CaveExit>())
+            {
+                if (exits.IsEscape)
+                {
+                    _target = exits;
+                    break;
+                }
+            }
+            ActivateNavigation(heroMove);
+        }
+        
+        public void ActivateNavigationToReturn(HeroMove heroMove)
+        {
+            foreach (var exits in FindObjectsOfType<CaveExit>())
+            {
+                if (!exits.IsEscape)
+                {
+                    _target = exits;
+                    break;
+                }
+            }
             ActivateNavigation(heroMove);
         }
         

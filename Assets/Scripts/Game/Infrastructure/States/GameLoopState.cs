@@ -38,14 +38,19 @@ namespace Game.Infrastructure.States
             if (SceneManager.GetActiveScene().name == "Main")
             {
                 _player.InitCaveLevelStarted();
-                
-            }
-            else
-            {
                 if (PlayerPrefs.GetInt("TriesPlayed", 0) < 1)
                 {
                     _player.StartJoinCaveTutorial();
+                    if (PlayerPrefs.GetInt("WelcomeMessagePlayer", 0) < 1)
+                    {
+                        PlayerPrefs.SetInt("WelcomeMessagePlayer", 1);
+                        _uiService.CallUserMessage("Dig to escape the jail", 3f);
+                    }
                 }
+            }
+            else
+            {
+                
             }
             _player.SetNextLevel("Lobby");
             _saveLoadService.SaveProgress();
@@ -63,11 +68,19 @@ namespace Game.Infrastructure.States
             }
             else
             {
-                
-                PlayerPrefs.SetInt("TriesPlayed", PlayerPrefs.GetInt("TriesPlayed", 0) + 1);
-                _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGame);
-                _player.AddMoney(obj.EarnedCash);
-                _saveLoadService.SaveProgress();
+                if (obj.SimpleReturnToJail)
+                {
+                    //_player.AddMoney(obj.EarnedCash);
+                    _saveLoadService.SaveProgress();
+                    EndGame();
+                }
+                else
+                {
+                    PlayerPrefs.SetInt("TriesPlayed", PlayerPrefs.GetInt("TriesPlayed", 0) + 1);
+                    _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGame);
+                    _player.AddMoney(obj.EarnedCash);
+                    _saveLoadService.SaveProgress();
+                }
             }
         }
 

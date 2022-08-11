@@ -39,10 +39,13 @@ namespace Game.Hero
         public PlayerCurrency Currency;
         private EventIndicator _currentEventIndicator;
         private IUIService _uiService;
-        private float _copTimer = 30f;
+        private float _copTimer = 25f;
         private bool _copTimerStarted = false;
-        public float MaximumCopTimer = 30f;
+        public float MaximumCopTimer = 25;
         private Vector3 CurrentHitPoint = Vector3.zero;
+        public NavigationArrow navigationArrowToExit;
+        public NavigationArrow navigationArrowToReturn;
+        private bool escapeArrowStartShowing = false;
 
 
         private void Awake()
@@ -153,6 +156,18 @@ namespace Game.Hero
                     _copTimer = 0;
                     FindObjectOfType<CopView>(true).gameObject.SetActive(true);
                 }
+                if (!escapeArrowStartShowing)
+                {
+                    if (_copTimer/MaximumCopTimer < 0.2f)
+                    {
+                        escapeArrowStartShowing = true;
+                        navigationArrowToReturn.ActivateNavigationToReturn(this);
+                    }
+                }
+            }
+            else
+            {
+                _uiService.UpdateCopUi(-1, MaximumCopTimer);
             }
         }
 
@@ -202,13 +217,13 @@ namespace Game.Hero
         private void ActivateExitNavigationArrow()
         {
             PlayerPrefs.SetInt("MapBuyed", 0);
-            var navigationArrow = GetComponentInChildren<NavigationArrow>();
-            if(navigationArrow)
-                navigationArrow.ActivateNavigationToCaveExit(this);
+            if(navigationArrowToExit)
+                navigationArrowToExit.ActivateNavigationToCaveExit(this);
             else
             {
-                Debug.Log($"{navigationArrow} Arrow is not exist");
+                Debug.Log($"{navigationArrowToExit} Arrow is not exist");
             }
+            
         }
 
         #region Cop
@@ -221,6 +236,7 @@ namespace Game.Hero
 
         private void StartCopTimer()
         {
+            escapeArrowStartShowing = false;
             _copTimerStarted = true;
         }
 
@@ -287,20 +303,35 @@ namespace Game.Hero
             EndLevelData Data = new EndLevelData();
             Data.EarnedCash = _heroLootTracker.GetCurrency();
             Data.CopCash = 0f;
+            Data.SimpleReturnToJail = false;
             Data.EscapeResult = true;
             Data.IsLevelLobby = false;
             AllServices.Container.Single<ISoundController>().PlaySound("Victory");
             AllServices.Container.Single<IAnalytics>().OnLevelVictory();
             OnLevelEnded?.Invoke(Data);
         }
-
+        
         public void ReturnToJail()
+        {
+            DectivateHeroMovement();
+            EndLevelData Data = new EndLevelData();
+            Data.EarnedCash = _heroLootTracker.GetCurrency();
+            Data.CopCash = 0f;
+            Data.SimpleReturnToJail = true;
+            Data.EscapeResult = true;
+            Data.IsLevelLobby = false;
+            AllServices.Container.Single<IAnalytics>().OnLevelVictory();
+            OnLevelEnded?.Invoke(Data);
+        }
+
+        public void CatchedByCop()
         {
             DectivateHeroMovement();
             EndLevelData Data = new EndLevelData();
             float cashValue = _heroLootTracker.GetCurrency();
             Data.EarnedCash = cashValue * 0.6f;
             Data.CopCash = cashValue * 0.4f;
+            Data.SimpleReturnToJail = false;
             Data.EscapeResult = false;
             Data.IsLevelLobby = false;
             AllServices.Container.Single<ISoundController>().PlaySound("Lose");

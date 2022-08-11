@@ -23,6 +23,7 @@ namespace Game.Logic.EventIndicator
             {
                 if (PlayerPrefs.GetInt("MapBuyed", 0) < 1)
                 {
+                    upgradeButton.onClick.RemoveAllListeners();
                     upgradeButton.onClick.AddListener(() => BuyingMap(heroMove:hero, upgradeButton:upgradeButton));
                     upgradeButton.interactable = true;
                     EnoughMoneyUi.SetActive(true);

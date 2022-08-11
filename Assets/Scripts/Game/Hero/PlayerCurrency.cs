@@ -74,11 +74,12 @@ namespace Game.Hero
             UpdateUIMoney();
         }
 
-
         public void AddCopSavings(float earnedCash)
         {
             CopMoney += earnedCash;
             PlayerPrefs.SetFloat(CopMoneyKey, CopMoney);
         }
+
+        
     }
 }

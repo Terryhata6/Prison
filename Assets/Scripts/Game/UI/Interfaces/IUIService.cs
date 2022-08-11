@@ -14,5 +14,6 @@ namespace Game.UI.Interfaces
         void UpdateUIMoney(float money);
         void UpdateUiInventory(string value, Color textColor);
         void UpdateCopUi(float copTimer, float maximumCopTimer);
+        void CallUserMessage(string message, float duration);
     }
 }

@@ -6,6 +6,6 @@ namespace Game.Logic
 {
     public interface IInit
     {
-        GameObject Init(IGameFactory factory, TileController controller);
+        GameObject Init(IGameFactory factory, TileController controller, bool useSave);
     }
 }

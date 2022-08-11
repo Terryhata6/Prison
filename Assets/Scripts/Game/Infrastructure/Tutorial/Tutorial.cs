@@ -7,7 +7,7 @@ namespace Game.Infrastructure.Tutorial
     {
         private void StartTutorial()
         {
-
+            
 
         }
     }

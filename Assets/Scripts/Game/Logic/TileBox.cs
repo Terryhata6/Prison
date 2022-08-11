@@ -5,6 +5,7 @@ using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.States;
 using UnityEngine;
+using static UnityEngine.PlayerPrefs;
 using Random = UnityEngine.Random;
 
 namespace Game.Logic
@@ -23,20 +24,39 @@ namespace Game.Logic
         private TileController _tileController;
         public Transform CurrentTransform;
 
-        public GameObject Init(IGameFactory factory, TileController tileController)
+        public GameObject Init(IGameFactory factory, TileController tileController, bool useSave)
         {
             _tileController = tileController;
             _factory = factory;
-            var randomValue = Random.Range(0, 100);
-            if (randomValue > 90)
-                Type = CurrencyType.Gem;
-            else if (randomValue > 70)
-                Type = CurrencyType.Iron;
-            else if(randomValue > 40)
-                Type = CurrencyType.Copper;
-            else
-                Type = CurrencyType.Void;
             
+            var randomValue = Random.Range(0, 100);
+
+            if (useSave)
+            {
+                switch (GetInt(gameObject.name+"SavedType", 0))
+                {
+                    case 0:
+                        Type = CurrencyType.Void;
+                        break;
+                    case 1:
+                        Type = CurrencyType.Copper;
+                        break;
+                    case 2:
+                        Type = CurrencyType.Iron;
+                        break;
+                    case 3:
+                        Type = CurrencyType.Gem;
+                        break;
+                    case -1:
+                        Type = CurrencyType.Void;
+                        Destroy(gameObject); 
+                        return null;
+                }
+            }
+            else
+            {
+                RandomiseType(randomValue);
+            }
 
             IronGO.SetActive(false);
             CopperGO.SetActive(false);
@@ -66,7 +86,33 @@ namespace Game.Logic
             }
             return CurrentTransform.gameObject;
         }
-    
+
+        private void RandomiseType(int randomValue)
+        {
+            if (gameObject.activeSelf == false)
+                SetInt(gameObject.name + "SavedType", -1);
+            if (randomValue > 90)
+            {
+                SetInt(gameObject.name + "SavedType", 3);
+                Type = CurrencyType.Gem;
+            }
+            else if (randomValue > 70)
+            {
+                SetInt(gameObject.name + "SavedType", 2);
+                Type = CurrencyType.Iron;
+            }
+            else if (randomValue > 40)
+            {
+                SetInt(gameObject.name + "SavedType", 1);
+                Type = CurrencyType.Copper;
+            }
+            else
+            {
+                SetInt(gameObject.name + "SavedType", 0);
+                Type = CurrencyType.Void;
+            }
+        }
+
         public void GetDamage(Action onDeath, float damage = 1f)
         {
             _health -= damage;
@@ -82,6 +128,7 @@ namespace Game.Logic
             
                 ShakeTile(true);
                 _tileController.TileWasDestroyed(this);
+                PlayerPrefs.SetInt(gameObject.name + "SavedType", -1);
                 onDeath?.Invoke();
             }
             else
@@ -108,9 +155,15 @@ namespace Game.Logic
                 if (death)
                 {
                     AllServices.Container.Single<ISoundController>().PlaySound("TileDestroyed");
-                    Destroy(this.gameObject);
+                    DestroyTile();
                 }
             });
+        }
+
+        private void DestroyTile()
+        {
+            transform.position = new Vector3(-99f, -99f, -99f);
+            gameObject.SetActive(false);
         }
     }
 }

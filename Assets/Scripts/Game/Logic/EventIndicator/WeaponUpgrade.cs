@@ -40,9 +40,9 @@ namespace Game.Logic.EventIndicator
                     {
                         upgradeButton.interactable = true;
                         PriceText.color = Color.green;
+                        upgradeButton.onClick.RemoveAllListeners();
                         upgradeButton.onClick.AddListener(() =>
                         {
-                            hero.SpendMoney(SpoonPrice);
                             UpgradeHeroWeapon(hero, WeaponType.Spoon, SpoonPrice);
                         });
                     }
@@ -65,6 +65,7 @@ namespace Game.Logic.EventIndicator
                     {
                         upgradeButton.interactable = true;
                         PriceText.color = Color.green;
+                        upgradeButton.onClick.RemoveAllListeners();
                         upgradeButton.onClick.AddListener(() => UpgradeHeroWeapon(hero, WeaponType.Pickaxe, PickaxePrice));
                     }
                     else

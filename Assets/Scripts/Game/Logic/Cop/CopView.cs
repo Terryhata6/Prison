@@ -128,7 +128,7 @@ namespace Game.Logic.Cop
         {
             if (other.collider.CompareTag("Player") && _playerCatched == false)
             {
-                _player.ReturnToJail();
+                _player.CatchedByCop();
             }
         }
 
@@ -137,7 +137,7 @@ namespace Game.Logic.Cop
             if (other.CompareTag("Player") && _playerCatched == false)
             {
                 _playerCatched = true;
-                _player.ReturnToJail();
+                _player.CatchedByCop();
                 GetComponent<CapsuleCollider>().enabled = false;
             }
         }
