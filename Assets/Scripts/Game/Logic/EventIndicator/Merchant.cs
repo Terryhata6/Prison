@@ -12,6 +12,8 @@ namespace Game.Logic.EventIndicator
         public GameObject UIContent;
         public Button UpgradeButton;
         public MerchantContent Content;
+        public Button RewardedButton;
+        public bool haveRewardedButton = false;
 
         private void Awake()
         {
@@ -35,7 +37,14 @@ namespace Game.Logic.EventIndicator
         private void ActivateContent(HeroMove hero)
         {
             Content.gameObject.SetActive(true);
-            Content.Init(hero, UpgradeButton);
+            if (haveRewardedButton)
+            {
+                Content.Init(hero, UpgradeButton, RewardedButton);
+            }
+            else
+            {
+                Content.Init(hero, UpgradeButton);
+            }
         }
 
         private void DeactivateContent()

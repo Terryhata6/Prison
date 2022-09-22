@@ -30,7 +30,7 @@ MonoBehaviour:
   secretKey:
   - 55a74b64d60268958d9132dce040c7274ef2df50
   Build:
-  - 0.5
+  - 0.7
   SelectedPlatformOrganization:
   - SuperSonic Studios
   SelectedPlatformStudio:

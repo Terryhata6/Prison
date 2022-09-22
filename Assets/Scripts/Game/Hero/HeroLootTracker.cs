@@ -59,10 +59,6 @@ namespace Game.Hero
                                     _needRevealForge = false;
                                 }
                             }
-                            else
-                            {
-                                Debug.Log("Bag is full");
-                            }
                         }
                     }
                 }

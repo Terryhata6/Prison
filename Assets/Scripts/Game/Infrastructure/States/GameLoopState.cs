@@ -94,6 +94,7 @@ namespace Game.Infrastructure.States
         
         private void EndGame()
         {
+            GameEvents.GameEvents.Instance.InterstitialRequest("EndScene");
             _stateMachine.Enter<LoadProgressState>();
         }
 

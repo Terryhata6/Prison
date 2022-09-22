@@ -27,7 +27,8 @@ namespace Game.Infrastructure.States
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _services = services;
-            
+
+            Application.targetFrameRate = 60;
             RegisterServices();
         }
 

@@ -6,7 +6,7 @@ namespace Game.Logic.EventIndicator
 {
     public abstract class MerchantContent : MonoBehaviour
     {
-        public virtual void Init(HeroMove hero, Button upgradeButton)
+        public virtual void Init(HeroMove hero, Button upgradeButton,Button rewardedButton = null)
         {
             
         }
@@ -15,5 +15,6 @@ namespace Game.Logic.EventIndicator
         {
             
         }
+
     }
 }

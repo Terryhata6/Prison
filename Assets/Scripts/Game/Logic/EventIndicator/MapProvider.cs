@@ -12,7 +12,7 @@ namespace Game.Logic.EventIndicator
         public TMP_Text PriceText;
         public GameObject NotEnoughMoneyUi;
 
-        public override void Init(HeroMove hero, Button upgradeButton)
+        public override void Init(HeroMove hero, Button upgradeButton, Button rewardedButton)
         {
             base.Init(hero, upgradeButton);
             PriceText.text = MapPrice + "$";

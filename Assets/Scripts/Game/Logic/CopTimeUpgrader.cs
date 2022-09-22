@@ -17,9 +17,10 @@ namespace Game.Logic
         public TMP_Text NextTime;
         public float TimeUpgradeValue = 20;
 
-        public override void Init(HeroMove hero, Button upgradeButton)
+        public override void Init(HeroMove hero, Button upgradeButton, Button rewardedButton)
         {
-            base.Init(hero, upgradeButton);
+            base.Init(hero, upgradeButton, rewardedButton);
+            
             NotEnoughMoneyUi.gameObject.SetActive(false);
             EnoughMoneyUi.gameObject.SetActive(false);
         
@@ -62,7 +63,7 @@ namespace Game.Logic
         {
             heroMove.UpgradeCopDelayTimer(TimeUpgradeValue, price);
             
-            Init(heroMove, upgradeButton: upgradeButton);
+            Init(heroMove, upgradeButton: upgradeButton, rewardedButton:null);
         }
 
         public override void Deactivate()
