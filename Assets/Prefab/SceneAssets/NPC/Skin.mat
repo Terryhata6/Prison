@@ -10,6 +10,7 @@ Material:
   m_Name: Skin
   m_Shader: {fileID: 4800000, guid: bee44b4a58655ee4cbff107302a3e131, type: 3}
   m_ValidKeywords:
+  - DR_CEL_EXTRA_ON
   - DR_RIM_ON
   - _TEXTUREBLENDINGMODE_MULTIPLY
   m_InvalidKeywords:
@@ -95,7 +96,7 @@ Material:
     - _Blend: 0
     - _BumpScale: 1
     - _CameraDistanceImpact: 0
-    - _CelExtraEnabled: 0
+    - _CelExtraEnabled: 1
     - _CelNumSteps: 3
     - _CelPrimaryMode: 0
     - _ClearCoatMask: 0
@@ -162,7 +163,7 @@ Material:
     - _Color: {r: 0.93333685, g: 0.7386665, b: 0.66142786, a: 1}
     - _ColorDim: {r: 0.93333685, g: 0.7386665, b: 0.66142786, a: 1}
     - _ColorDimCurve: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
-    - _ColorDimExtra: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
+    - _ColorDimExtra: {r: 0.8301887, g: 0.52041274, b: 0.40256315, a: 1}
     - _ColorDimSteps: {r: 0.85023, g: 0.85034, b: 0.8504499, a: 0.85056}
     - _ColorGradient: {r: 0.85023, g: 0.85034, b: 0.85045, a: 0.85056}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

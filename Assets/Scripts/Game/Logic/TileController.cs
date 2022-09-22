@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Game.Infrastructure.Factory;
 using Game.Infrastructure.Services;
+using MoreMountains.Tools;
 using UnityEngine;
 
 namespace Game.Logic
@@ -17,6 +18,24 @@ namespace Game.Logic
 
         public bool NeedSaveTileProgress = false;
 
+        [MMInspectorButton("TurnAllBoxesToSimple")]
+        public bool TurnAllBoxesToSimpleButton;
+        
+        [MMInspectorButton("TurnAllBoxesToVoid")]
+        public bool TurnAllBoxesToVoidButton;
+
+        public void TurnAllBoxesToSimple()
+        {
+            
+        }
+        
+        public void TurnAllBoxesToVoid()
+        {
+            
+        }
+        
+        
+        
         private void Awake()
         {
             RenderersToBake.Clear();

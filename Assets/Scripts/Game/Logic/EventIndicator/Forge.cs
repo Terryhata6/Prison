@@ -1,5 +1,8 @@
 using System;
+using DG.Tweening;
 using Game.Hero;
+using Game.Infrastructure.Particles;
+using Game.Infrastructure.Services;
 using Game.Logic.InGameLoot;
 using MoreMountains.Tools;
 using UnityEngine;
@@ -12,6 +15,23 @@ namespace Game.Logic.EventIndicator
         public int CopperTransferValue = 5;
         public int IronTransferValue = 10;
         public int GemTransferValue= 25;
+
+        public void Awake()
+        {
+            if (PlayerPrefs.GetInt("ForgeOpen", 0) < 1)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+        public void RevealForge()
+        {
+            transform.localScale = Vector3.one * 0.01f;
+            gameObject.SetActive(true);
+            transform.DOScale(Vector3.one, 1f);
+            AllServices.Container.Single<IParticlesController>().PlayParticle("RevealForge", transform.position);
+        }
+        
 
         public override void Activate(HeroMove hero)
         {

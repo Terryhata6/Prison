@@ -2,6 +2,7 @@ using System.Collections;
 using Game.Data;
 using Game.Hero;
 using Game.Infrastructure.Analytics;
+using Game.Infrastructure.Music;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.SaveLoad;
 using Game.UI;
@@ -44,7 +45,7 @@ namespace Game.Infrastructure.States
                     if (PlayerPrefs.GetInt("WelcomeMessagePlayer", 0) < 1)
                     {
                         PlayerPrefs.SetInt("WelcomeMessagePlayer", 1);
-                        _uiService.CallUserMessage("Dig to escape the jail", 3f);
+                        _uiService.CallUserMessage("Dig to escape the jail", 3f, Color.white);
                     }
                 }
             }
@@ -77,13 +78,20 @@ namespace Game.Infrastructure.States
                 else
                 {
                     PlayerPrefs.SetInt("TriesPlayed", PlayerPrefs.GetInt("TriesPlayed", 0) + 1);
-                    _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGame);
+                    
+                    _uiService.EndCaveLevelCoroutine(_coroutineRunner, obj, EndGameWithChangingMaterial);
                     _player.AddMoney(obj.EarnedCash);
                     _saveLoadService.SaveProgress();
                 }
             }
         }
 
+        private void EndGameWithChangingMaterial()
+        {
+            AllServices.Container.Single<IHighGroundVisualController>().ChangeMaterialToNextInList();
+            EndGame();
+        }
+        
         private void EndGame()
         {
             _stateMachine.Enter<LoadProgressState>();

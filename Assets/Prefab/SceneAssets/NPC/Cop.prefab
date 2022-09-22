@@ -1156,7 +1156,7 @@ MonoBehaviour:
   _seeker: {fileID: 3622308982172398391}
   speed: 2
   nextWaypointDistance: 0.5
-  _pathfindingDelay: 2
+  _pathfindingDelay: 0.5
   _animator: {fileID: 0}
 --- !u!143 &3622308982172398388
 CharacterController:

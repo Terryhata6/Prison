@@ -57,7 +57,7 @@ MonoBehaviour:
   IronGO: {fileID: 4931410928729160863}
   CopperGO: {fileID: 4807201672529790788}
   GemGO: {fileID: 6117695477618771770}
-  CurrentTransform: {fileID: 0}
+  CurrentTransform: {fileID: 9003008717116035557}
 --- !u!65 &8211933648898867730
 BoxCollider:
   m_ObjectHideFlags: 0

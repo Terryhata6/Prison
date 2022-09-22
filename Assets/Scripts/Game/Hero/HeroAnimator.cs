@@ -32,7 +32,7 @@ namespace Game.Hero
        
         public void Move(float speed)
         {
-            StopAttack();
+            //StopAttack();
             _animator.SetBool(IsMoving, true);
             _animator.SetFloat(Speed,speed);
         }

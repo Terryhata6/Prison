@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using Game.Logic;
+using Game.Logic.EventIndicator;
 using UnityEngine;
 
 namespace Game.Hero
@@ -40,21 +41,35 @@ namespace Game.Hero
             }
             ActivateNavigation(heroMove);
         }
-        
+
         private void ActivateNavigation(HeroMove heroMove)
         {
             _heroMove = heroMove;
             StartCoroutine(NavigationArrowDrive(_target.transform));
         }
 
+        public void ActivateNavigationTo(Transform target)
+        {
+            StartCoroutine(NavigationArrowDrive(target));
+        }
+
         private IEnumerator NavigationArrowDrive(Transform target)
         {
             _arrowView.gameObject.SetActive(true);
-            while (true)
+            if (_heroMove == null)
+            {
+                _heroMove = GetComponentInParent<HeroMove>();
+            }
+            bool show = true;
+            while (show)
             {
                 var heroPosition = _heroMove.transform.position;
                 transform.position = heroPosition + (target.transform.position - heroPosition).normalized * Distance + Vector3.up * Height;
                 transform.LookAt(target:target);
+                if (Vector3.Distance(_arrowView.transform.position,target.position) < 1f)
+                {
+                    show = false;
+                }
                 yield return null;
             }
             // ReSharper disable once IteratorNeverReturns

@@ -51,9 +51,9 @@ namespace Game.UI
             _uiController.UpdateCopUI(copTimer, maximumCopTimer);
         }
 
-        public void CallUserMessage(string message, float duration)
+        public void CallUserMessage(string message, float duration, Color color)
         {
-            _uiController.CallUserMessage(message, duration);
+            _uiController.CallUserMessage(message, duration, color);
         }
     }
 }

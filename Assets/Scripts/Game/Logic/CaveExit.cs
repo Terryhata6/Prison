@@ -32,7 +32,7 @@ namespace Game.Logic
 
         public override void Deactivate()
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

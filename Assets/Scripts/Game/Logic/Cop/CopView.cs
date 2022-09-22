@@ -31,7 +31,7 @@ namespace Game.Logic.Cop
             {
                 _animator = GetComponentInChildren<Animator>();
             }
-            AllServices.Container.Single<ISoundController>().PlaySound("Alarm");
+            
             FindPath();
         }
 
@@ -46,7 +46,7 @@ namespace Game.Logic.Cop
             currentWaypoint = 0;
         }
 
-        public void Update()
+        public void FixedUpdate()
         {
             if (_playerCatched)
             {

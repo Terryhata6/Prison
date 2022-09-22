@@ -5,6 +5,7 @@ using DG.Tweening;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.States;
 using Game.Logic;
+using Game.Logic.EventIndicator;
 using Game.Logic.InGameLoot;
 using Game.UI.Interfaces;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Game.Hero
         public Dictionary<CurrencyType, float> CurrencyValues = new Dictionary<CurrencyType, float>();
         public int MaximumStackSize = 10;
         private IUIService _uiService;
-
+        private bool _needRevealForge = false;
         public void Init(HeroMove heroMove, IUIService uiService, int maximumStackSize = 10)
         {
             _heroMove = heroMove;
@@ -29,6 +30,10 @@ namespace Game.Hero
             _uiService = uiService;
             SetMaximumInventorySize(maximumStackSize);
             UpdateInventory();
+            if (PlayerPrefs.GetInt("ForgeOpen", 0) < 1)
+            {
+                _needRevealForge = true;
+            }
         }
 
         public void OnTriggerStay(Collider other)
@@ -45,6 +50,14 @@ namespace Game.Hero
                             if (_currencyStack.Count < MaximumStackSize)
                             {
                                 CollectCurrency(lootContainer);
+                                if (_needRevealForge)
+                                {
+                                    Forge forge = FindObjectOfType<Forge>(true);
+                                    forge.RevealForge();
+                                    PlayerPrefs.SetInt("ForgeOpen", 1);
+                                    _heroMove.navigationArrowToForge.ActivateNavigationTo(forge.transform);
+                                    _needRevealForge = false;
+                                }
                             }
                             else
                             {

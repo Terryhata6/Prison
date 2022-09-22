@@ -24,6 +24,17 @@ namespace Game.Logic
         private TileController _tileController;
         public Transform CurrentTransform;
 
+        
+        public Action OnSlamTile;
+
+        public void SlamTile()
+        {
+            OnSlamTile?.Invoke();
+            OnSlamTile = null;
+        }
+
+        
+        
         public GameObject Init(IGameFactory factory, TileController tileController, bool useSave)
         {
             _tileController = tileController;
@@ -127,8 +138,10 @@ namespace Game.Logic
                 _collider.enabled = false;
             
                 ShakeTile(true);
-                _tileController.TileWasDestroyed(this);
+                if(_tileController)
+                    _tileController.TileWasDestroyed(this);
                 PlayerPrefs.SetInt(gameObject.name + "SavedType", -1);
+                SlamTile();
                 onDeath?.Invoke();
             }
             else

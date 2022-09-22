@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.17794496, g: 0.22279373, b: 0.30491972, a: 1}
+  m_IndirectSpecularColor: {r: 0.17276844, g: 0.21589246, b: 0.2978263, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1267,7 +1267,7 @@ PrefabInstance:
     - target: {fileID: 6207133488976360133, guid: 0bfe3b149145747cc92dc53bb4df4e9b,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6207133488976360133, guid: 0bfe3b149145747cc92dc53bb4df4e9b,
         type: 3}
@@ -1710,6 +1710,60 @@ MonoBehaviour:
         RolloffMode: 0
         MinDistance: 1
         MaxDistance: 500
+--- !u!1 &1603433613
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603433614}
+  - component: {fileID: 1603433615}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603433614
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603433613}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 905039053}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1603433615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603433613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05a214ebf4504906ac867a4bc39fd6f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaterialsPool:
+  - {fileID: 2100000, guid: b3374944e0c7c2142b47ca295f240a09, type: 2}
+  - {fileID: 2100000, guid: 5f091a3c728717e498acd09d16cb3f33, type: 2}
+  - {fileID: 2100000, guid: ed367e79d783f58488a00926b528e8d2, type: 2}
+  - {fileID: 2100000, guid: 56c15f48e12e9fb4e868eee8d4ea359c, type: 2}
+  - {fileID: 2100000, guid: bec6fd1d7195fb3499d68bf18338b6fc, type: 2}
+  - {fileID: 2100000, guid: b4b483846caec434b8f7553a7831ecce, type: 2}
+  - {fileID: 2100000, guid: bf3be5abf992d1741915b96652fadbb4, type: 2}
+  TextureBakeResults: {fileID: 11400000, guid: beac420c487f553498d8db1ee035d86f, type: 2}
+  CurrentMaterial: {fileID: 0}
 --- !u!1001 &1604581578
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2735,7 +2789,7 @@ PrefabInstance:
     - target: {fileID: 2737245860145537299, guid: 50cc6ea8a47c21f44b28dd2cec1e8d56,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2737245860145537299, guid: 50cc6ea8a47c21f44b28dd2cec1e8d56,
         type: 3}

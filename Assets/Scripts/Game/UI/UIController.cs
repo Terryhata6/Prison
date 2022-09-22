@@ -30,6 +30,7 @@ namespace Game.UI
         public RectTransform _copArrow;
         public RectTransform _copArrowStart;
         public RectTransform _copArrowFinish;
+        public TMP_Text _timerText;
 
         [Header("UserMessage")] public TMP_Text _userMessageText;
 
@@ -102,23 +103,27 @@ namespace Game.UI
                 _copArrow.position = Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
                     copTimer / maximumCopTimer);
                 _copHolder.gameObject.SetActive(false);
+                _timerText.gameObject.SetActive(false);
             }
             else
             {
+                _timerText.gameObject.SetActive(true);
+                _timerText.text = copTimer.ToString("0.0");
                 _copHolder.gameObject.SetActive(true);
                 _copArrow.position= Vector3.Lerp(_copArrowStart.position, _copArrowFinish.position,
                     copTimer / maximumCopTimer);
             }
         }
 
-        public void CallUserMessage(string message, float duration)
+        public void CallUserMessage(string message, float duration, Color color)
         {
-            StartCoroutine(CallUserMessageCoroutine(message, duration));
+            StartCoroutine(CallUserMessageCoroutine(message, duration, color));
         }
 
-        private IEnumerator CallUserMessageCoroutine(string message, float duration)
+        private IEnumerator CallUserMessageCoroutine(string message, float duration, Color color)
         {
             _userMessageText.text = message;
+            _userMessageText.color = color;
             _userMessageText.gameObject.SetActive(true);
             yield return new WaitForSeconds(duration);
             _userMessageText.gameObject.SetActive(false);

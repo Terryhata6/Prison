@@ -1,6 +1,7 @@
 using Game.Infrastructure.Analytics;
 using Game.Infrastructure.AssetManagment;
 using Game.Infrastructure.Factory;
+using Game.Infrastructure.Music;
 using Game.Infrastructure.Particles;
 using Game.Infrastructure.Services;
 using Game.Infrastructure.Services.PersistantProgress;
@@ -53,8 +54,11 @@ namespace Game.Infrastructure.States
             _services.RegisterSingle<ITutorial>(SetupTutorial());
             _services.RegisterSingle<IAnalytics>(SetupAnalytics());
             _services.RegisterSingle<ISoundController>(SetupSoundController());
+            _services.RegisterSingle<IHighGroundVisualController>(SetupHighGroundController());
             
         }
+
+        private IHighGroundVisualController SetupHighGroundController() => GameObject.FindObjectOfType<HighGroundVisualController>();
 
         private ISoundController SetupSoundController()
         {

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Game.Data;
 using Game.Enums;
 using Game.Infrastructure.Analytics;
@@ -13,6 +14,7 @@ using Game.Logic.EventIndicator;
 using Game.Logic.InGameLoot;
 using Game.Logic.Services;
 using Game.UI.Interfaces;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,20 +34,25 @@ namespace Game.Hero
         public Transform Hips;
         public TileBox CurrentTileBox;
         public string NextLevel = "Lobby";
-        
+
         private HeroLootTracker _heroLootTracker;
         private Vector3 _movementVector3 = Vector3.zero;
-        private readonly Vector3 _gravity = new Vector3(0f,-9.81f,0f);
+        private readonly Vector3 _gravity = new Vector3(0f, -9.81f, 0f);
         public PlayerCurrency Currency;
         private EventIndicator _currentEventIndicator;
         private IUIService _uiService;
-        private float _copTimer = 25f;
+        [SerializeField] private float _copTimer = 25f;
         private bool _copTimerStarted = false;
         public float MaximumCopTimer = 25;
         private Vector3 CurrentHitPoint = Vector3.zero;
         public NavigationArrow navigationArrowToExit;
         public NavigationArrow navigationArrowToReturn;
+        public NavigationArrow navigationArrowToForge;
         private bool escapeArrowStartShowing = false;
+        
+        [Header("CopMessage")][Space] public float _nextMessageTime = .6f;
+        public int _nextMessageTimeIndex = 2;
+        public List<String> CopMessages = new List<string>();
 
 
         private void Awake()
@@ -60,8 +67,6 @@ namespace Game.Hero
             _heroLootTracker.Init(this, _uiService);
             Currency = GetComponent<PlayerCurrency>();
             AllServices.Container.Single<ISaveLoadService>().SaveProgress();
-
-            
         }
 
         private void InitInput()
@@ -76,6 +81,7 @@ namespace Game.Hero
             _input.OnEndTouch += OnEndTouch;
             _input.OnMovedTouch += OnMovedTouch;
         }
+
         private void DectivateHeroMovement()
         {
             _input.OnStartTouch -= OnStartTouch;
@@ -91,7 +97,7 @@ namespace Game.Hero
             Vector3 direction = (_currentPosition - _startPosition).normalized;
             Vector3 directionTransformed = new Vector3(direction.x, 0f, direction.y);
             float distance = Vector3.Distance(_currentPosition, _startPosition);
-            float speed = Mathf.Clamp(distance,0f, 100f);
+            float speed = Mathf.Clamp(distance, 0f, 100f);
             if (distance > 0)
             {
                 MoveCharacter(directionTransformed, speed);
@@ -103,7 +109,7 @@ namespace Game.Hero
         private void MoveCharacter(Vector3 direction, float speed)
         {
             _movementVector3 = direction * MovementSpeed * speed * 0.01f * Time.deltaTime;
-            
+
             transform.LookAt(transform.position + direction, Vector3.up);
             _heroAnimator.Move(speed * 0.01f);
         }
@@ -130,8 +136,8 @@ namespace Game.Hero
             {
                 AllServices.Container.Single<ISoundController>().PlaySound("Digging");
                 CurrentTileBox.GetDamage(StopAttack);
-                var vector3 = new Vector3(transform.position.x,CurrentHitPoint.y, transform.position.z);
-                AllServices.Container.Single<IParticlesController>().PlayParticle("TileHit", CurrentHitPoint, 
+                var vector3 = new Vector3(transform.position.x, CurrentHitPoint.y, transform.position.z);
+                AllServices.Container.Single<IParticlesController>().PlayParticle("TileHit", CurrentHitPoint,
                     Quaternion.LookRotation(vector3 - CurrentHitPoint));
             }
         }
@@ -150,15 +156,33 @@ namespace Game.Hero
             {
                 _copTimer -= Time.deltaTime;
                 _uiService.UpdateCopUi(_copTimer, MaximumCopTimer);
+
+
+                if (_copTimer < _nextMessageTime)
+                {
+                    if (_nextMessageTimeIndex >= 0)
+                    {
+                        _nextMessageTime = MaximumCopTimer * _nextMessageTimeIndex * 0.2f + .1f;
+                        _uiService.CallUserMessage(CopMessages[_nextMessageTimeIndex], 3f, Color.red);
+                        _nextMessageTimeIndex--;
+                    }
+                    else
+                    {
+                        _nextMessageTime = -1f;
+                    }
+                    
+
+                }
                 if (_copTimer <= 0)
                 {
                     _copTimerStarted = false;
                     _copTimer = 0;
-                    FindObjectOfType<CopView>(true).gameObject.SetActive(true);
+                    FindObjectOfType<CopController>(true).EnableCops();
                 }
+
                 if (!escapeArrowStartShowing)
                 {
-                    if (_copTimer/MaximumCopTimer < 0.2f)
+                    if (_copTimer / MaximumCopTimer < 0.2f)
                     {
                         escapeArrowStartShowing = true;
                         navigationArrowToReturn.ActivateNavigationToReturn(this);
@@ -181,27 +205,24 @@ namespace Game.Hero
 
         private void CheckAttack()
         {
-            if (_heroAnimator.State != AnimatorState.Dead)
+            if (Physics.Raycast(Hips.position, transform.forward, out _hitInfo, 1f, 1 << 10))
             {
-                if (Physics.Raycast(Hips.position, transform.forward, out _hitInfo, 1f, 1 << 10))
+                if (_hitInfo.collider.CompareTag("Tile"))
                 {
-                    if (_hitInfo.collider.CompareTag("Tile"))
-                    {
-                        Attack();
-                        CurrentTileBox = _hitInfo.collider.gameObject.GetComponent<TileBox>();
-                        CurrentHitPoint = _hitInfo.point;
-                    }
-                    else
-                    {
-                        StopAttack();
-                        CurrentTileBox = null;
-                    }
+                    Attack();
+                    CurrentTileBox = _hitInfo.collider.gameObject.GetComponent<TileBox>();
+                    CurrentHitPoint = _hitInfo.point;
                 }
                 else
                 {
                     StopAttack();
                     CurrentTileBox = null;
                 }
+            }
+            else
+            {
+                StopAttack();
+                CurrentTileBox = null;
             }
         }
 
@@ -217,13 +238,12 @@ namespace Game.Hero
         private void ActivateExitNavigationArrow()
         {
             PlayerPrefs.SetInt("MapBuyed", 0);
-            if(navigationArrowToExit)
+            if (navigationArrowToExit)
                 navigationArrowToExit.ActivateNavigationToCaveExit(this);
             else
             {
                 Debug.Log($"{navigationArrowToExit} Arrow is not exist");
             }
-            
         }
 
         #region Cop
@@ -238,6 +258,7 @@ namespace Game.Hero
         {
             escapeArrowStartShowing = false;
             _copTimerStarted = true;
+            _nextMessageTime = MaximumCopTimer * 0.6f;
         }
 
         public void UpgradeCopDelayTimer(float timeDelay, int price)
@@ -247,6 +268,7 @@ namespace Game.Hero
             PlayerPrefs.SetFloat("CopTimerCurrentValue", MaximumCopTimer);
             AllServices.Container.Single<ISaveLoadService>().SaveProgress();
         }
+
         #endregion
 
         #region SaveLoad
@@ -266,6 +288,7 @@ namespace Game.Hero
                     WeaponController.SetCurrentWeapon(WeaponController.CurrentWeapon.Type, this);
                     _heroLootTracker.SetMaximumInventorySize(10);
                 }
+
                 Debug.Log("PlayerProgress Loaded");
             }
         }
@@ -310,7 +333,7 @@ namespace Game.Hero
             AllServices.Container.Single<IAnalytics>().OnLevelVictory();
             OnLevelEnded?.Invoke(Data);
         }
-        
+
         public void ReturnToJail()
         {
             DectivateHeroMovement();
@@ -406,13 +429,13 @@ namespace Game.Hero
             Currency.SpendMoney(price);
         }
 
-        public void UpdateWeaponParams(float currentWeaponAttackSpeed) => _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
+        public void UpdateWeaponParams(float currentWeaponAttackSpeed) =>
+            _heroAnimator.SetAttackSpeed(currentWeaponAttackSpeed);
 
         #endregion
 
         public void StartJoinCaveTutorial()
         {
-            
         }
     }
 }

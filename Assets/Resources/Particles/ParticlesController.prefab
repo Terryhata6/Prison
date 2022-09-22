@@ -49,4 +49,8 @@ MonoBehaviour:
     Example: {fileID: 115120, guid: f00b7ce74a405d547ad157c971a52fb9, type: 3}
     ParticlesContainers: []
     Index: 0
+  - Id: RevealForge
+    Example: {fileID: 129898, guid: 2abb017e67c965c4f9de34214cd66664, type: 3}
+    ParticlesContainers: []
+    Index: 0
   PoolAmount: 5
